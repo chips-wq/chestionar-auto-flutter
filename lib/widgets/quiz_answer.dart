@@ -1,5 +1,7 @@
+import 'package:chestionar_auto/core/provider/question_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:chestionar_auto/utils/app_colors.dart';
+import 'package:provider/provider.dart';
 
 String idToChar(int id) {
   if (id == 0) {
@@ -15,13 +17,11 @@ class QuizAnswer extends StatelessWidget {
   final String text;
   final int status;
   final int id;
-  final Function swap;
 
   const QuizAnswer(
       {Key? key,
       required this.text,
       required this.id,
-      required this.swap,
       this.status = 0})
       : super(key: key);
 
@@ -43,7 +43,7 @@ class QuizAnswer extends StatelessWidget {
         bottom: 20,
       ),
       child: GestureDetector(
-        onTap: () => {swap(id)},
+        onTap: () => {Provider.of<QuestionProvider>(context, listen:false).swap(id)},
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           decoration: BoxDecoration(

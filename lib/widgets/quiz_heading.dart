@@ -1,34 +1,24 @@
+import 'package:chestionar_auto/core/provider/question_provider.dart';
+import 'package:chestionar_auto/core/provider/quiz_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:chestionar_auto/utils/app_colors.dart';
 import 'package:chestionar_auto/widgets/progress_bar.dart';
+import 'package:provider/provider.dart';
 
 class QuizHeading extends StatelessWidget {
-  final int questionNumber;
-  final int quizLength;
-  final int correctAnswers;
-  final int wrongAnswers;
-  final List<int> statusHistory;
-  final ScrollController scrollController;
-  final List<GlobalKey> scrollKeys;
-
-  const QuizHeading(
-      {Key? key,
-      required this.questionNumber,
-      required this.quizLength,
-      required this.correctAnswers,
-      required this.wrongAnswers,
-      required this.statusHistory,
-      required this.scrollController,
-      required this.scrollKeys})
-      : super(key: key);
+  const QuizHeading({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var quizProvider = Provider.of<QuizProvider>(context);
+    print("rebuilt");
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
+          const Text(
             "Chestionar auto",
             style: TextStyle(color: AppColors.bgShade1, fontSize: 18),
           ),
@@ -42,7 +32,7 @@ class QuizHeading extends StatelessWidget {
                     color: AppColors.teal3),
                 child: Center(
                   child: Text(
-                    "$correctAnswers",
+                    "${quizProvider.correctAnswers}",
                     style: TextStyle(color: AppColors.white, fontSize: 18),
                   ),
                 ),
@@ -55,7 +45,7 @@ class QuizHeading extends StatelessWidget {
                     borderRadius: BorderRadius.circular(3), color: Colors.red),
                 child: Center(
                   child: Text(
-                    "$wrongAnswers",
+                    "${quizProvider.wrongAnswers}",
                     style: TextStyle(color: AppColors.white, fontSize: 18),
                   ),
                 ),
@@ -65,35 +55,48 @@ class QuizHeading extends StatelessWidget {
         ],
       ),
       SizedBox(height: 10),
-      RichText(
-        text: TextSpan(
-          style: TextStyle(),
+      Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            TextSpan(
-              text: "Intrebarea ${questionNumber}",
-              style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.w300,
-                  color: AppColors.white),
-            ),
-            TextSpan(
-              text: "/${quizLength}",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w300,
-                color: AppColors.bgShade1,
+            RichText(
+              text: TextSpan(
+                style: TextStyle(),
+                children: [
+                  TextSpan(
+                    text: "Intrebarea ${quizProvider.questionIndex + 1}",
+                    style: const TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.w300,
+                        color: AppColors.white),
+                  ),
+                  TextSpan(
+                    text: "/${quizProvider.quiz!.length}",
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w300,
+                      color: AppColors.bgShade1,
+                    ),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
-      ),
+            ),
+            Text(
+              Provider.of<QuestionProvider>(context , listen:false).question.getTypeName(),
+              style: const TextStyle(fontSize: 22, color: AppColors.white),
+            ),
+            // Consumer<QuestionProvider>(
+            //     builder: (context, questionProvider, child) {
+            //   print("rebuilding the type name of the question");
+            //   return Text(
+            //     questionProvider.question.getTypeName(),
+            //     style: TextStyle(fontSize: 22, color: AppColors.white),
+            //   );
+            // })
+          ]),
       SizedBox(height: 10),
       //progress bar
-      ProgressBar(
-        statusHistory: statusHistory,
-        scrollController: scrollController,
-        scrollKeys: scrollKeys,
-      ),
+      ProgressBar(),
       //here the actual question starts
       SizedBox(height: 10),
     ]);

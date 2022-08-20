@@ -1,65 +1,65 @@
 //the widget containing the entire question
 
+import 'package:chestionar_auto/core/provider/question_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:chestionar_auto/models.dart/question_model.dart';
+import 'package:chestionar_auto/core/models/question_model.dart';
 import 'package:chestionar_auto/utils/app_colors.dart';
 import 'package:chestionar_auto/widgets/quiz_answer.dart';
+import 'package:provider/provider.dart';
 
 class QuestionBody extends StatelessWidget {
-  final Question currentQuestion;
-  final List<bool> selectedAnswers;
-  final Function getStatus;
-  final Function swap;
-
-  const QuestionBody(
-      {Key? key,
-      required this.currentQuestion,
-      required this.selectedAnswers,
-      required this.getStatus,
-      required this.swap})
-      : super(key: key);
+  const QuestionBody({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          currentQuestion.text,
-          style: TextStyle(
-              fontSize: currentQuestion.text.length > 200 ? 17 : 18,
-              fontWeight: FontWeight.w300,
-              color: AppColors.white),
-        ),
-        currentQuestion.image != null
-            ? SizedBox(
-                height: 10,
-              )
-            : SizedBox.shrink(),
-        currentQuestion.image != null
-            ? Image(
-                image: AssetImage("assets/images/${currentQuestion.image}"),
-              )
-            : SizedBox.shrink(),
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-          //width: double.infinity,
-          child: Column(
-              children: selectedAnswers
-                  .asMap()
-                  .entries
-                  .map(
-                    (el) => QuizAnswer(
-                        text: currentQuestion.answers[el.key].answer,
-                        status: getStatus(el.key, el.value),
+    return Consumer<QuestionProvider>(
+        builder: (context, questionProvider, child) {
+      var currQuestion = questionProvider.question;
+      print("building question body");
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            currQuestion.text,
+            style: TextStyle(
+                fontSize: currQuestion.text.length > 200 ? 17 : 18,
+                fontWeight: FontWeight.w300,
+                color: AppColors.white),
+          ),
+          currQuestion.image != null
+              ? SizedBox(
+                  height: 10,
+                )
+              : SizedBox.shrink(),
+          currQuestion.image != null
+              ? Image(
+                  image: AssetImage("assets/images/${currQuestion.image}"),
+                )
+              : SizedBox.shrink(),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            //width: double.infinity,
+            child: Column(
+                children: questionProvider.selectedAnswers
+                    .asMap()
+                    .entries
+                    .map(
+                      (el) => QuizAnswer(
+                        text: currQuestion.answers[el.key].answer,
+                        status: Provider.of<QuestionProvider>(context,
+                                listen: false)
+                            .getStatus(el.key, el.value),
                         id: el.key,
-                        swap: swap),
-                  )
-                  .toList()),
-        )
-      ],
-    );
+                      ),
+                    )
+                    .toList()),
+          )
+        ],
+      );
+    });
   }
 }
