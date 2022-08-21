@@ -11,7 +11,7 @@ class DatabaseHelper {
         await getDatabasesPath(); // <- does not work on desktop
     String path = join(databasesPath, "main.db");
     // Check if the database exists
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
     bool exists = await databaseExists(path);
     if (!exists) {
       // Should happen only the first time you launch your application
@@ -42,7 +42,7 @@ class DatabaseHelper {
     Database _db = await database();
     final List<Map> questionMap = [];
     List<Map> initialNeverSeenQuestions = await _db.rawQuery(
-        'SELECT * FROM questions WHERE CATEGORY=\'B\' and nextDueTime IS NULL ORDER BY RANDOM() LIMIT ${2};');
+        'SELECT * FROM questions WHERE CATEGORY=\'B\' and nextDueTime IS NULL ORDER BY RANDOM() LIMIT ${10};');
     print(
         "We have ${initialNeverSeenQuestions.length} questions that have never been seen");
     questionMap.addAll(initialNeverSeenQuestions);
@@ -64,7 +64,7 @@ class DatabaseHelper {
           "We have ${neverSeenQuestions.length} questions that have never been seen");
       questionMap.addAll(neverSeenQuestions);
     }
-    //questionMap.shuffle();
+    questionMap.shuffle();
     return List.generate(questionMap.length, (index) {
       return Question(
           id: questionMap[index]['id'],
@@ -135,15 +135,5 @@ class DatabaseHelper {
         reviewQuestions: reviewQuestions);
 
     return questionsStats;
-  }
-
-  void test() async {
-    final db = await database();
-    List<Map<String, dynamic>> result =
-        await db.rawQuery("SELECT * FROM questions WHERE repetitions!=0;");
-    print(result.length);
-    for (var r in result) {
-      print(r);
-    }
   }
 }

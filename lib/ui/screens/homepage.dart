@@ -12,139 +12,107 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Acasa"),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ClipRRect(
-            //   borderRadius: BorderRadius.only(
-            //     bottomLeft: Radius.circular(50),
-            //     bottomRight: Radius.circular(50),
-            //   ),
-            //   child: Container(
-            //     width: double.infinity,
-            //     color: AppColors.bgShade2,
-            //     height: 200,
-            //     child: SafeArea(
-            //       child: Padding(
-            //         padding: EdgeInsets.all(24),
-            //         child: Column(
-            //           crossAxisAlignment: CrossAxisAlignment.start,
-            //           children: [
-            //             Text(
-            //               "Buna dimineata,",
-            //               style:
-            //                   TextStyle(color: AppColors.white, fontSize: 36),
-            //             ),
-            //             Text("Sofer.",
-            //                 style:
-            //                     TextStyle(fontSize: 36, color: AppColors.white))
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Statistici",
-                    style: TextStyle(fontSize: 36, color: AppColors.white),
-                  ),
-                  Consumer<QuestionStatsProvider>(
-                      builder: (context, questionStats, child) {
-                    if (questionStats.stats == null) {
-                      return Container(
-                        height: 250,
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    }
-                    return PieChart(
-                      dataMap: {
-                        "Revizuire":
-                            questionStats.stats!.reviewQuestions.toDouble(),
-                        "Nevazute":
-                            questionStats.stats!.neverSeenQuestions.toDouble(),
-                        "Learning":
-                            questionStats.stats!.learningQuestions.toDouble(),
-                      },
-                      chartRadius: MediaQuery.of(context).size.width / 1.7,
-                      centerText: "Intrebari",
-                      colorList: [
-                        AppColors.teal3,
-                        AppColors.lightBlue,
-                        AppColors.orange
-                      ],
-                      legendOptions: LegendOptions(showLegends: false),
-                      chartValuesOptions:
-                          ChartValuesOptions(showChartValues: false),
+      appBar: AppBar(
+        title: Text("Acasa"),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Statistici",
+                  style: TextStyle(fontSize: 36, color: AppColors.white),
+                ),
+                Consumer<QuestionStatsProvider>(
+                    builder: (context, questionStats, child) {
+                  if (questionStats.stats == null) {
+                    return Container(
+                      height: 250,
+                      child: Center(child: CircularProgressIndicator()),
                     );
-                  }),
-                  Consumer<QuestionStatsProvider>(
-                      builder: (context, questionStats, child) {
-                    return Row(
-                      children: [
-                        QuestionInformationBox(
-                            categoryName: "Nevazute",
-                            loading: questionStats.stats == null ? true : false,
-                            amountQuestions:
-                                questionStats.stats?.neverSeenQuestions,
-                            borderColor: AppColors.lightBlue,
-                            percentOfTotal:
-                                questionStats.stats?.neverSeenPercent),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        QuestionInformationBox(
-                            categoryName: "De invatat",
-                            loading: questionStats.stats == null ? true : false,
-                            amountQuestions:
-                                questionStats.stats?.learningQuestions,
-                            borderColor: AppColors.orange,
-                            percentOfTotal:
-                                questionStats.stats?.learningPercent),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        QuestionInformationBox(
-                            categoryName: "Revizuire",
-                            loading: questionStats.stats == null ? true : false,
-                            amountQuestions:
-                                questionStats.stats?.reviewQuestions,
-                            borderColor: AppColors.teal3,
-                            percentOfTotal: questionStats.stats?.reviewPercent),
-                      ],
-                    );
-                  }),
-                  ElevatedButton(
-                    onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const QuizWrapper(),
-                        ),
-                      ).then((value) => Provider.of<QuestionStatsProvider>(
-                              context,
-                              listen: false)
-                          .fetchQuestionStats())
+                  }
+                  return PieChart(
+                    dataMap: {
+                      "Revizuire":
+                          questionStats.stats!.reviewQuestions.toDouble(),
+                      "Nevazute":
+                          questionStats.stats!.neverSeenQuestions.toDouble(),
+                      "Learning":
+                          questionStats.stats!.learningQuestions.toDouble(),
                     },
-                    child: Text("Genereaza Chestionar"),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () => {DatabaseHelper().getQuestionsStats()}));
+                    chartRadius: MediaQuery.of(context).size.width / 1.7,
+                    centerText: "Intrebari",
+                    colorList: [
+                      AppColors.teal3,
+                      AppColors.lightBlue,
+                      AppColors.orange
+                    ],
+                    legendOptions: LegendOptions(showLegends: false),
+                    chartValuesOptions:
+                        ChartValuesOptions(showChartValues: false),
+                  );
+                }),
+                Consumer<QuestionStatsProvider>(
+                    builder: (context, questionStats, child) {
+                  return Row(
+                    children: [
+                      QuestionInformationBox(
+                          categoryName: "Nevazute",
+                          loading: questionStats.stats == null ? true : false,
+                          amountQuestions:
+                              questionStats.stats?.neverSeenQuestions,
+                          borderColor: AppColors.lightBlue,
+                          percentOfTotal:
+                              questionStats.stats?.neverSeenPercent),
+                      SizedBox(
+                        width: 6,
+                      ),
+                      QuestionInformationBox(
+                          categoryName: "De invatat",
+                          loading: questionStats.stats == null ? true : false,
+                          amountQuestions:
+                              questionStats.stats?.learningQuestions,
+                          borderColor: AppColors.orange,
+                          percentOfTotal: questionStats.stats?.learningPercent),
+                      SizedBox(
+                        width: 6,
+                      ),
+                      QuestionInformationBox(
+                          categoryName: "Revizuire",
+                          loading: questionStats.stats == null ? true : false,
+                          amountQuestions: questionStats.stats?.reviewQuestions,
+                          borderColor: AppColors.teal3,
+                          percentOfTotal: questionStats.stats?.reviewPercent),
+                    ],
+                  );
+                }),
+                ElevatedButton(
+                  onPressed: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const QuizWrapper(),
+                      ),
+                    ).then((value) => Provider.of<QuestionStatsProvider>(
+                            context,
+                            listen: false)
+                        .fetchQuestionStats())
+                  },
+                  child: Text("Genereaza Chestionar"),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
 

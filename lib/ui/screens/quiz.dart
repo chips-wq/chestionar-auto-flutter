@@ -102,7 +102,7 @@ class QuizBottomBar extends StatelessWidget {
             child: Text("Iesire"),
           ),
           SizedBox(
-            width: 30,
+            width: 10,
           ),
           //TODO: bottom sheet needs work, overrflow and design probably
           OutlinedButton(
@@ -133,7 +133,7 @@ class QuizBottomBar extends StatelessWidget {
             child: Text("Explicatie"),
           ),
           SizedBox(
-            width: !quizProvider.showReview ? 30 : 0,
+            width: !quizProvider.showReview ? 10 : 0,
           ),
           quizProvider.showReview
               ? SizedBox.shrink()
@@ -188,7 +188,7 @@ class ExplanationWidget extends StatelessWidget {
                 "Explicatie",
                 style: TextStyle(fontSize: 30, color: AppColors.white),
               ),
-              Text(explanation == null || true ? "No explanation" : explanation,
+              Text(explanation == null ? "No explanation" : explanation,
                   style: TextStyle(color: AppColors.white, fontSize: 16)),
             ],
           ),
