@@ -10,6 +10,13 @@ class ProgressBar extends StatelessWidget {
 
   Color getColor(List<int> statusHistory, int index) {
     int status = statusHistory[index];
+    if (index == 0) {
+      if (statusHistory[0] == 0) {
+        return AppColors.white;
+      }
+    } else if (statusHistory[index - 1] != 0 && status == 0) {
+      return AppColors.white;
+    }
     if (status == -1) {
       return Colors.red;
     }
@@ -21,21 +28,31 @@ class ProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var quizProvider = Provider.of<QuizProvider>(context);
+    var quizProvider = Provider.of<QuizProvider>(context, listen: false);
+    if (quizProvider.scrollController.hasClients) {
+      quizProvider.scrollController.position.ensureVisible(
+        quizProvider.scrollKeys[quizProvider.questionIndex].currentContext!
+            .findRenderObject()!,
+        alignment:
+            0.5, // how far into view the item should be scrolled (between 0 and 1).
+        duration: const Duration(seconds: 1),
+      );
+    }
     return Container(
-        height: 20,
-        child: ListView.builder(
-          controller: quizProvider.scrollController,
-          padding: EdgeInsets.symmetric(vertical: 8),
-          scrollDirection: Axis.horizontal,
-          itemCount: quizProvider.statusHistory.length,
-          itemBuilder: (context, i) {
-            return Container(
-                key: quizProvider.scrollKeys[i],
-                margin: EdgeInsets.symmetric(horizontal: 2),
-                width: 15,
-                color: getColor(quizProvider.statusHistory, i));
-          },
-        ));
+      height: 20,
+      child: ListView.builder(
+        controller: quizProvider.scrollController,
+        padding: EdgeInsets.symmetric(vertical: 8),
+        scrollDirection: Axis.horizontal,
+        itemCount: quizProvider.statusHistory.length,
+        itemBuilder: (context, i) {
+          return Container(
+              key: quizProvider.scrollKeys[i],
+              margin: EdgeInsets.symmetric(horizontal: 2),
+              width: 15,
+              color: getColor(quizProvider.statusHistory, i));
+        },
+      ),
+    );
   }
 }

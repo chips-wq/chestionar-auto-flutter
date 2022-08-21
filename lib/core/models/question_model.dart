@@ -1,4 +1,5 @@
 import 'package:chestionar_auto/core/utils/sm_utils.dart';
+import 'package:chestionar_auto/core/utils/time_utils.dart';
 
 class Answer {
   final String answer;
@@ -8,14 +9,7 @@ class Answer {
   });
 }
 
-int? getSecondsSinceEpoch(DateTime? datetime) {
-  if (datetime == null) {
-    return null;
-  }
-  return (datetime.millisecondsSinceEpoch / 1000).round();
-}
-
-enum QuestionType { Nevazute, Learning, Revizuire }
+enum QuestionType { notseen, learning, review }
 
 class Question {
   final int id;
@@ -32,14 +26,14 @@ class Question {
   double easiness;
   DateTime? nextDueTime;
 
-  String getTypeName() {
-    if (type == QuestionType.Nevazute) {
+  String get typeName {
+    if (type == QuestionType.notseen) {
       return 'N';
     }
-    if (type == QuestionType.Learning) {
+    if (type == QuestionType.learning) {
       return 'L';
     }
-    if (type == QuestionType.Revizuire) {
+    if (type == QuestionType.review) {
       return 'R';
     }
     return 'Error';

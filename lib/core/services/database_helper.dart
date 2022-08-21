@@ -42,13 +42,13 @@ class DatabaseHelper {
     Database _db = await database();
     final List<Map> questionMap = [];
     List<Map> initialNeverSeenQuestions = await _db.rawQuery(
-    'SELECT * FROM questions WHERE CATEGORY=\'B\' and nextDueTime IS NULL ORDER BY RANDOM() LIMIT ${2};');
+        'SELECT * FROM questions WHERE CATEGORY=\'B\' and nextDueTime IS NULL ORDER BY RANDOM() LIMIT ${2};');
     print(
-    "We have ${initialNeverSeenQuestions.length} questions that have never been seen");
+        "We have ${initialNeverSeenQuestions.length} questions that have never been seen");
     questionMap.addAll(initialNeverSeenQuestions);
     //add 5 questions we have never seen before
     List<Map> learningMode = await _db.rawQuery(
-        'SELECT * FROM questions WHERE CATEGORY=\'B\' AND nextDueTime IS NOT NULL AND strftime(\'%s\' , \'now\') > nextDueTime AND stage=0 ORDER BY RANDOM() LIMIT ${numQuestions-questionMap.length};');
+        'SELECT * FROM questions WHERE CATEGORY=\'B\' AND nextDueTime IS NOT NULL AND strftime(\'%s\' , \'now\') > nextDueTime AND stage=0 ORDER BY RANDOM() LIMIT ${numQuestions - questionMap.length};');
     questionMap.addAll(learningMode);
     print("We have ${learningMode.length} questions in learning mode.");
     if (questionMap.length < numQuestions) {
@@ -95,10 +95,10 @@ class DatabaseHelper {
                   isUtc: true),
           stage: questionMap[index]['stage'],
           type: questionMap[index]['nextDueTime'] == null
-              ? QuestionType.Nevazute
+              ? QuestionType.notseen
               : questionMap[index]['stage'] == 0
-                  ? QuestionType.Learning
-                  : QuestionType.Revizuire);
+                  ? QuestionType.learning
+                  : QuestionType.review);
     });
   }
 

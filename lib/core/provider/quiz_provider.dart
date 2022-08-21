@@ -1,5 +1,4 @@
 import 'package:chestionar_auto/core/models/question_model.dart';
-import 'package:chestionar_auto/core/provider/question_provider.dart';
 import 'package:chestionar_auto/core/services/database_helper.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -36,12 +35,6 @@ class QuizProvider extends ChangeNotifier {
   bool nextQuestion() {
     //returns true if it got to the next question(if there is one) and false otherwise
     toggleReview();
-    scrollController.position.ensureVisible(
-      scrollKeys[questionIndex].currentContext!.findRenderObject()!,
-      alignment:
-          0.5, // how far into view the item should be scrolled (between 0 and 1).
-      duration: const Duration(seconds: 1),
-    );
     if (questionIndex + 1 < quiz!.length) {
       questionIndex++;
       notifyListeners();

@@ -12,7 +12,9 @@ class QuizHeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var quizProvider = Provider.of<QuizProvider>(context);
+    //we don't have to listen to changes because this should rebuilt only on questionIndex change, and we already have a selector
+    //for that up the widget tree which in turn updates this
+    var quizProvider = Provider.of<QuizProvider>(context, listen: false);
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,23 +85,14 @@ class QuizHeading extends StatelessWidget {
             Text(
               Provider.of<QuestionProvider>(context, listen: false)
                   .question
-                  .getTypeName(),
+                  .typeName,
               style: const TextStyle(fontSize: 22, color: AppColors.white),
             ),
-            // Consumer<QuestionProvider>(
-            //     builder: (context, questionProvider, child) {
-            //   print("rebuilding the type name of the question");
-            //   return Text(
-            //     questionProvider.question.getTypeName(),
-            //     style: TextStyle(fontSize: 22, color: AppColors.white),
-            //   );
-            // })
           ]),
-      SizedBox(height: 10),
+      const SizedBox(height: 10),
       //progress bar
       ProgressBar(),
-      //here the actual question starts
-      SizedBox(height: 10),
+      const SizedBox(height: 10),
     ]);
   }
 }

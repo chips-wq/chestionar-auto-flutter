@@ -30,7 +30,7 @@ class QuizAnswer extends StatelessWidget {
     if (status == AnswerState.selected) {
       return AppColors.teal3;
     }
-    return AppColors.bgShade3;
+    return AppColors.bgShade1;
   }
 
   @override

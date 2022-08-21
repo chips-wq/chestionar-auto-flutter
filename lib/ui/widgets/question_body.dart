@@ -13,53 +13,50 @@ class QuestionBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<QuestionProvider>(
-        builder: (context, questionProvider, child) {
-      var currQuestion = questionProvider.question;
-      print("building question body");
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            currQuestion.text,
-            style: TextStyle(
-                fontSize: currQuestion.text.length > 200 ? 17 : 18,
-                fontWeight: FontWeight.w300,
-                color: AppColors.white),
-          ),
-          currQuestion.image != null
-              ? SizedBox(
-                  height: 10,
-                )
-              : SizedBox.shrink(),
-          currQuestion.image != null
-              ? Image(
-                  image: AssetImage("assets/images/${currQuestion.image}"),
-                )
-              : SizedBox.shrink(),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            //width: double.infinity,
+    var currQuestion =
+        Provider.of<QuestionProvider>(context, listen: false).question;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          currQuestion.text,
+          style: TextStyle(
+              fontSize: currQuestion.text.length > 200 ? 17 : 18,
+              fontWeight: FontWeight.w300,
+              color: AppColors.white),
+        ),
+        currQuestion.image != null
+            ? SizedBox(
+                height: 10,
+              )
+            : SizedBox.shrink(),
+        currQuestion.image != null
+            ? Image(
+                image: AssetImage("assets/images/${currQuestion.image}"),
+              )
+            : SizedBox.shrink(),
+        SizedBox(
+          height: 20,
+        ),
+        //TODO: figure out how to use a selector on selected answers
+        Consumer<QuestionProvider>(builder: (_, questionProvider, __) {
+          var selectedAnswers = questionProvider.selectedAnswers;
+          return Container(
             child: Column(
-                children: questionProvider.selectedAnswers
+                children: selectedAnswers
                     .asMap()
                     .entries
                     .map(
                       (el) => QuizAnswer(
                         text: currQuestion.answers[el.key].answer,
-                        status: questionProvider.selectedAnswers[el.key],
-                        // status: Provider.of<QuestionProvider>(context,
-                        //         listen: false)
-                        //     .getStatus(el.key, el.value),
+                        status: selectedAnswers[el.key],
                         id: el.key,
                       ),
                     )
                     .toList()),
-          )
-        ],
-      );
-    });
+          );
+        }),
+      ],
+    );
   }
 }
