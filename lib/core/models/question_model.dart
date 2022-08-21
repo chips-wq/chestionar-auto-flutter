@@ -16,7 +16,7 @@ class Question {
   final int correctAnswer;
   final String text;
   final String? image;
-  final String explanation;
+  final String? explanation;
   QuestionType type;
   List<Answer> answers;
 

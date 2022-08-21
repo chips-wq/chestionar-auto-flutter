@@ -11,7 +11,7 @@ class DatabaseHelper {
         await getDatabasesPath(); // <- does not work on desktop
     String path = join(databasesPath, "main.db");
     // Check if the database exists
-    // await deleteDatabase(path);
+    await deleteDatabase(path);
     bool exists = await databaseExists(path);
     if (!exists) {
       // Should happen only the first time you launch your application
