@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:chestionar_auto/core/provider/question_stats_provider.dart';
 import 'package:chestionar_auto/core/services/database_helper.dart';
 import 'package:chestionar_auto/ui/screens/quiz.dart';
@@ -47,7 +49,8 @@ class HomePage extends StatelessWidget {
                       "Learning":
                           questionStats.stats!.learningQuestions.toDouble(),
                     },
-                    chartRadius: MediaQuery.of(context).size.width / 1.7,
+                    chartRadius:
+                        min(400, MediaQuery.of(context).size.width / 1.7),
                     centerText: "Intrebari",
                     colorList: [
                       AppColors.teal3,
