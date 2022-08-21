@@ -1,8 +1,8 @@
 import 'package:chestionar_auto/core/provider/question_provider.dart';
 import 'package:chestionar_auto/core/provider/quiz_provider.dart';
+import 'package:chestionar_auto/ui/shared/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:chestionar_auto/utils/app_colors.dart';
-import 'package:chestionar_auto/widgets/progress_bar.dart';
+import 'package:chestionar_auto/ui/widgets/progress_bar.dart';
 import 'package:provider/provider.dart';
 
 class QuizHeading extends StatelessWidget {
@@ -13,7 +13,6 @@ class QuizHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var quizProvider = Provider.of<QuizProvider>(context);
-    print("rebuilt");
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -82,7 +81,9 @@ class QuizHeading extends StatelessWidget {
               ),
             ),
             Text(
-              Provider.of<QuestionProvider>(context , listen:false).question.getTypeName(),
+              Provider.of<QuestionProvider>(context, listen: false)
+                  .question
+                  .getTypeName(),
               style: const TextStyle(fontSize: 22, color: AppColors.white),
             ),
             // Consumer<QuestionProvider>(

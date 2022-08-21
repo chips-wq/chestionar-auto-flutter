@@ -1,6 +1,6 @@
 import 'package:chestionar_auto/core/provider/question_provider.dart';
+import 'package:chestionar_auto/ui/shared/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:chestionar_auto/utils/app_colors.dart';
 import 'package:provider/provider.dart';
 
 String idToChar(int id) {
@@ -15,22 +15,19 @@ String idToChar(int id) {
 
 class QuizAnswer extends StatelessWidget {
   final String text;
-  final int status;
+  final AnswerState status;
   final int id;
 
   const QuizAnswer(
-      {Key? key,
-      required this.text,
-      required this.id,
-      this.status = 0})
+      {Key? key, required this.text, required this.id, required this.status})
       : super(key: key);
 
   Color getColor() {
-    if (status == -1) {
+    if (status == AnswerState.wrong) {
       //should be highlighted in red
       return Colors.red;
     }
-    if (status == 1) {
+    if (status == AnswerState.selected) {
       return AppColors.teal3;
     }
     return AppColors.bgShade3;
@@ -43,7 +40,8 @@ class QuizAnswer extends StatelessWidget {
         bottom: 20,
       ),
       child: GestureDetector(
-        onTap: () => {Provider.of<QuestionProvider>(context, listen:false).swap(id)},
+        onTap: () =>
+            {Provider.of<QuestionProvider>(context, listen: false).swap(id)},
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           decoration: BoxDecoration(
@@ -58,7 +56,8 @@ class QuizAnswer extends StatelessWidget {
                 height: 40,
                 width: 40,
                 decoration: BoxDecoration(
-                  color: status == 1 ? AppColors.teal3 : null,
+                  color:
+                      status == AnswerState.selected ? AppColors.teal3 : null,
                   border: Border.all(width: 2, color: getColor()),
                   borderRadius: BorderRadius.circular(100),
                 ),

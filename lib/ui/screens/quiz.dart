@@ -1,11 +1,11 @@
 import 'package:chestionar_auto/core/provider/question_provider.dart';
 import 'package:chestionar_auto/core/provider/quiz_provider.dart';
-import 'package:chestionar_auto/utils/app_colors.dart';
+import 'package:chestionar_auto/ui/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:chestionar_auto/core/models/question_model.dart';
-import 'package:chestionar_auto/widgets/question_body.dart';
-import 'package:chestionar_auto/widgets/quiz_heading.dart';
-import 'package:chestionar_auto/widgets/review_body.dart';
+import 'package:chestionar_auto/ui/widgets/question_body.dart';
+import 'package:chestionar_auto/ui/widgets/quiz_heading.dart';
+import 'package:chestionar_auto/ui/widgets/review_body.dart';
 import 'package:provider/provider.dart';
 
 class QuizWrapper extends StatelessWidget {
@@ -113,17 +113,19 @@ class QuizBottomBar extends StatelessWidget {
                 builder: ((context) => Container(
                     height: 400,
                     padding: EdgeInsets.all(32),
-                    color:AppColors.bgShade2,
+                    color: AppColors.bgShade2,
                     width: double.infinity,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Explicatie",
-                          style: TextStyle(
-                              fontSize: 24, color: AppColors.white),
+                          style:
+                              TextStyle(fontSize: 24, color: AppColors.white),
                         ),
-                        Text(questionProvider.question.explanation , style:TextStyle(color:AppColors.white , fontSize: 16)),
+                        Text(questionProvider.question.explanation,
+                            style: TextStyle(
+                                color: AppColors.white, fontSize: 16)),
                       ],
                     ))),
               ),

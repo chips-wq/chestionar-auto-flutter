@@ -1,12 +1,8 @@
-import 'dart:ffi';
-
 import 'package:chestionar_auto/core/provider/question_stats_provider.dart';
 import 'package:chestionar_auto/core/services/database_helper.dart';
-import 'package:chestionar_auto/screens/quiz.dart';
-import 'package:chestionar_auto/utils/app_colors.dart';
+import 'package:chestionar_auto/ui/screens/quiz.dart';
+import 'package:chestionar_auto/ui/shared/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:chestionar_auto/main.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +12,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+        appBar: AppBar(
+          title: Text("Acasa"),
+        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -53,7 +51,7 @@ class HomePage extends StatelessWidget {
               height: 20,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: EdgeInsets.symmetric(horizontal: 14),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -102,24 +100,27 @@ class HomePage extends StatelessWidget {
                             borderColor: AppColors.lightBlue,
                             percentOfTotal:
                                 questionStats.stats?.neverSeenPercent),
-                        SizedBox(width: 6,),
+                        SizedBox(
+                          width: 6,
+                        ),
                         QuestionInformationBox(
                             categoryName: "De invatat",
                             loading: questionStats.stats == null ? true : false,
                             amountQuestions:
-                            questionStats.stats?.learningQuestions,
+                                questionStats.stats?.learningQuestions,
                             borderColor: AppColors.orange,
                             percentOfTotal:
-                            questionStats.stats?.learningPercent),
-                        SizedBox(width: 6,),
+                                questionStats.stats?.learningPercent),
+                        SizedBox(
+                          width: 6,
+                        ),
                         QuestionInformationBox(
                             categoryName: "Revizuire",
                             loading: questionStats.stats == null ? true : false,
                             amountQuestions:
-                            questionStats.stats?.reviewQuestions,
+                                questionStats.stats?.reviewQuestions,
                             borderColor: AppColors.teal3,
-                            percentOfTotal:
-                            questionStats.stats?.reviewPercent),
+                            percentOfTotal: questionStats.stats?.reviewPercent),
                       ],
                     );
                   }),
@@ -130,7 +131,10 @@ class HomePage extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => const QuizWrapper(),
                         ),
-                      ).then((value) => Provider.of<QuestionStatsProvider>(context, listen:false).fetchQuestionStats())
+                      ).then((value) => Provider.of<QuestionStatsProvider>(
+                              context,
+                              listen: false)
+                          .fetchQuestionStats())
                     },
                     child: Text("Genereaza Chestionar"),
                   ),
@@ -153,7 +157,7 @@ class QuestionInformationBox extends StatelessWidget {
 
   const QuestionInformationBox(
       {required this.categoryName,
-        required this.loading,
+      required this.loading,
       required this.amountQuestions,
       required this.percentOfTotal,
       required this.borderColor,
@@ -173,17 +177,21 @@ class QuestionInformationBox extends StatelessWidget {
           categoryName,
           style: TextStyle(fontSize: 16, color: AppColors.white),
         ),
-        loading ?  Container(height:12,width: 60,color:AppColors.bgShade1) :
-        Text(
-          "$amountQuestions",
-          style: TextStyle(fontSize: 16, color: AppColors.white),
+        loading
+            ? Container(height: 12, width: 60, color: AppColors.bgShade1)
+            : Text(
+                "$amountQuestions",
+                style: TextStyle(fontSize: 16, color: AppColors.white),
+              ),
+        SizedBox(
+          height: loading ? 5 : 0,
         ),
-        SizedBox(height: loading ? 5 : 0,),
-        loading ?  Container(height:12,width: 50,color:AppColors.bgShade1) :
-        Text(
-          "$percentOfTotal%",
-          style: TextStyle(fontSize: 16, color: AppColors.bgShade1),
-        ),
+        loading
+            ? Container(height: 12, width: 50, color: AppColors.bgShade1)
+            : Text(
+                "$percentOfTotal%",
+                style: TextStyle(fontSize: 16, color: AppColors.bgShade1),
+              ),
       ]),
     );
   }

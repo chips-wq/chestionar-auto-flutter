@@ -1,56 +1,48 @@
-
 import 'package:chestionar_auto/core/models/question_model.dart';
 import 'package:chestionar_auto/core/provider/quiz_provider.dart';
+import 'package:chestionar_auto/core/utils/question_utils.dart';
 import 'package:flutter/cupertino.dart';
 
-class QuestionProvider extends ChangeNotifier{
+enum AnswerState { wrong, unselected, selected }
+
+class QuestionProvider extends ChangeNotifier {
   Question question;
 
-  List<bool> selectedAnswers;
+  List<AnswerState> selectedAnswers;
   bool answeredIncorrectly = false;
 
   void swap(int id) {
-    selectedAnswers[id] = !selectedAnswers[id];
-    notifyListeners();
-  }
-
-  void resetSelected() {
-    selectedAnswers = selectedAnswers
-        .map(
-          (e) => false,
-    )
-        .toList();
-    notifyListeners();
-  }
-
-  QuestionProvider({required this.question}) : selectedAnswers = question.answers.map((e) => false).toList();
-
-  int getStatus(int key, bool currentSelected) {
-    if (answeredIncorrectly) {
-      if (question.correctAnswer == 7) {
-        return -1;
+    if (!answeredIncorrectly) {
+      if (selectedAnswers[id] == AnswerState.unselected) {
+        selectedAnswers[id] = AnswerState.selected;
+      } else if (selectedAnswers[id] == AnswerState.selected) {
+        selectedAnswers[id] = AnswerState.unselected;
       }
-      if (question.correctAnswer == 6 && (key == 1 || key == 2)) {
-        return -1;
-      }
-      if (question.correctAnswer == 5 && (key == 0 || key == 2)) {
-        return -1;
-      }
-      if (question.correctAnswer == 4 && (key == 0 || key == 1)) {
-        return -1;
-      }
-      return key == question.correctAnswer - 1 ? -1 : 0;
+      notifyListeners();
     }
-    return currentSelected ? 1 : 0;
   }
+
+  QuestionProvider({required this.question})
+      : selectedAnswers =
+            question.answers.map((e) => AnswerState.unselected).toList();
 
   void validate(QuizProvider quizProvider) {
     if (answeredIncorrectly) {
+      //if we go here it means that the user already answered the question and we should just show the review so we go the next one
       quizProvider.toggleReview();
       return;
     }
-    if (!question.isSelectedCorrect(selectedAnswers)) {
+    if (!QuestionUtils.isSelectedCorrect(
+        selectedAnswers, question.correctAnswer)) {
+      //this branch handles incorrect answer of a question
       answeredIncorrectly = true;
+      //set selected answers so that we highlight them in red
+      selectedAnswers =
+          QuestionUtils.getArrayFromAnswerNumber(question.correctAnswer)
+              .map((e) => e == AnswerState.selected
+                  ? AnswerState.wrong
+                  : AnswerState.unselected)
+              .toList();
       quizProvider.setCurrentIncorrect();
       notifyListeners();
       return;
@@ -58,5 +50,4 @@ class QuestionProvider extends ChangeNotifier{
     quizProvider.setCurrentCorrect();
     quizProvider.toggleReview();
   }
-
 }

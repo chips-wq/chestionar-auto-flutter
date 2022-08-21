@@ -1,10 +1,9 @@
 //the widget containing the entire question
 
 import 'package:chestionar_auto/core/provider/question_provider.dart';
+import 'package:chestionar_auto/ui/shared/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:chestionar_auto/core/models/question_model.dart';
-import 'package:chestionar_auto/utils/app_colors.dart';
-import 'package:chestionar_auto/widgets/quiz_answer.dart';
+import 'package:chestionar_auto/ui/widgets/quiz_answer.dart';
 import 'package:provider/provider.dart';
 
 class QuestionBody extends StatelessWidget {
@@ -50,9 +49,10 @@ class QuestionBody extends StatelessWidget {
                     .map(
                       (el) => QuizAnswer(
                         text: currQuestion.answers[el.key].answer,
-                        status: Provider.of<QuestionProvider>(context,
-                                listen: false)
-                            .getStatus(el.key, el.value),
+                        status: questionProvider.selectedAnswers[el.key],
+                        // status: Provider.of<QuestionProvider>(context,
+                        //         listen: false)
+                        //     .getStatus(el.key, el.value),
                         id: el.key,
                       ),
                     )

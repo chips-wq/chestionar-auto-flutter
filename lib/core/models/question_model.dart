@@ -1,4 +1,4 @@
-import 'package:chestionar_auto/utils/sm_utils.dart';
+import 'package:chestionar_auto/core/utils/sm_utils.dart';
 
 class Answer {
   final String answer;
@@ -63,30 +63,6 @@ class Question {
         m['nextDueTime'] * 1000,
         isUtc: true);
     return m.toString();
-  }
-
-  bool isSelectedCorrect(List<bool> selectedAnswers) {
-    int sum = 0;
-    selectedAnswers.forEach((element) => sum += element ? 1 : 0);
-    if (sum == 1 && correctAnswer < 4) {
-      return selectedAnswers[correctAnswer - 1];
-    }
-    if (sum == 3) {
-      return correctAnswer == 7;
-    }
-    if (correctAnswer == 4) {
-      return selectedAnswers[0] && selectedAnswers[1];
-    }
-    if (correctAnswer == 5) {
-      return selectedAnswers[0] && selectedAnswers[2];
-    }
-    if (correctAnswer == 6) {
-      return selectedAnswers[1] && selectedAnswers[2];
-    }
-    if (sum == 2) {
-      return false;
-    }
-    throw ("correctAnswer not in the range [1,7]");
   }
 
   void updateSm2(int quality) {

@@ -1,9 +1,8 @@
 import 'package:chestionar_auto/core/provider/question_provider.dart';
 import 'package:chestionar_auto/core/provider/quiz_provider.dart';
+import 'package:chestionar_auto/ui/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:chestionar_auto/core/services/database_helper.dart';
-import 'package:chestionar_auto/core/models/question_model.dart';
-import 'package:chestionar_auto/utils/app_colors.dart';
 import 'package:provider/provider.dart';
 
 class Review extends StatelessWidget {
@@ -26,7 +25,7 @@ class Review extends StatelessWidget {
           "Cat de usoara a fost intrebarea?",
           style: TextStyle(color: AppColors.white, fontSize: 24),
         ),
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
         Column(children: [
@@ -34,14 +33,14 @@ class Review extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: generateButtons([0, 1]),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: generateButtons([2, 3]),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
           Row(
@@ -59,14 +58,15 @@ class QualityBox extends StatelessWidget {
 
   const QualityBox({required this.quality, Key? key}) : super(key: key);
 
-  void rateQuestion(context,
-      QuestionProvider questionProvider, Function() nextQuestion, int quality) {
+  void rateQuestion(context, QuestionProvider questionProvider,
+      Function() nextQuestion, int quality) {
     var currQuestion = questionProvider.question;
+    //TODO : move update to appropriate location
     currQuestion.updateSm2(quality);
     print(currQuestion);
     DatabaseHelper().updateQuestion(currQuestion);
     var ended = !nextQuestion();
-    if(ended){
+    if (ended) {
       Navigator.pop(context);
     }
   }
@@ -96,7 +96,7 @@ class QualityBox extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 15),
       child: ElevatedButton(
         onPressed: () => rateQuestion(
-          context,
+            context,
             Provider.of<QuestionProvider>(context, listen: false),
             Provider.of<QuizProvider>(context, listen: false).nextQuestion,
             quality),
