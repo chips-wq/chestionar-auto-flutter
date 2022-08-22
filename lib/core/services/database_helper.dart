@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:chestionar_auto/core/models/question_model.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
-
+import 'package:sqflite_common/sqlite_api.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class DatabaseHelper {
@@ -72,8 +72,6 @@ class DatabaseHelper {
       print("We have ${reviewQuestions.length} questions in review mode.");
       questionMap.addAll(reviewQuestions);
     }
-    print("Question map length ${questionMap.length}");
-    print("num question length ${numQuestions}");
     int NEVER_SEEN = MIN_NEVER_SEEN + numQuestions - questionMap.length;
     List<Map> neverSeenQuestions = await _db.rawQuery(
         'SELECT * FROM questions WHERE CATEGORY=\'B\' and nextDueTime IS NULL ORDER BY RANDOM() LIMIT ${NEVER_SEEN};');
@@ -143,12 +141,24 @@ class DatabaseHelper {
         .rawQuery("SELECT COUNT(*) FROM questions WHERE CATEGORY=\'B\' AND "
             "stage=1;"))!;
 
+    final int toLearnNowQuestions = Sqflite.firstIntValue(await db
+        .rawQuery("SELECT COUNT(*) FROM questions WHERE CATEGORY=\'B\' AND "
+            "stage=0 AND strftime(\'%s\') > nextDueTime;"))!;
+
+    final int toReviewNowQuestions = Sqflite.firstIntValue(await db
+        .rawQuery("SELECT COUNT(*) FROM questions WHERE CATEGORY=\'B\' AND "
+            "stage=1 AND strftime(\'%s\') > nextDueTime;"))!;
+
+    await Future.delayed(Duration(milliseconds: 500));
+
     QuestionsStats questionsStats = QuestionsStats(
-        totalQuestions:
-            neverSeenQuestions + learningQuestions + reviewQuestions,
-        neverSeenQuestions: neverSeenQuestions,
-        learningQuestions: learningQuestions,
-        reviewQuestions: reviewQuestions);
+      totalQuestions: neverSeenQuestions + learningQuestions + reviewQuestions,
+      neverSeenQuestions: neverSeenQuestions,
+      learningQuestions: learningQuestions,
+      reviewQuestions: reviewQuestions,
+      toLearnNowQuestions: toLearnNowQuestions,
+      toReviewNowQuestions: toReviewNowQuestions,
+    );
 
     return questionsStats;
   }

@@ -1,11 +1,12 @@
 import 'package:chestionar_auto/core/provider/question_provider.dart';
 import 'package:chestionar_auto/core/provider/quiz_provider.dart';
 import 'package:chestionar_auto/ui/shared/app_colors.dart';
+import 'package:chestionar_auto/ui/widgets/quiz/quiz_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:chestionar_auto/core/models/question_model.dart';
-import 'package:chestionar_auto/ui/widgets/question_body.dart';
-import 'package:chestionar_auto/ui/widgets/quiz_heading.dart';
-import 'package:chestionar_auto/ui/widgets/review_body.dart';
+import 'package:chestionar_auto/ui/widgets/quiz/question_body.dart';
+import 'package:chestionar_auto/ui/widgets/quiz/quiz_heading.dart';
+import 'package:chestionar_auto/ui/widgets/quiz/review_body.dart';
 import 'package:provider/provider.dart';
 
 class QuizWrapper extends StatelessWidget {
@@ -66,13 +67,13 @@ class Quiz extends StatelessWidget {
                                           if (showReview) {
                                             return Review();
                                           }
-                                          return QuestionBody();
+                                          return const QuestionBody();
                                         })
                                   ],
                                 ),
                               ),
                             ),
-                            QuizBottomBar(),
+                            const QuizBottomBar(),
                           ],
                         ),
                       ),
@@ -81,120 +82,6 @@ class Quiz extends StatelessWidget {
                 );
               });
         });
-  }
-}
-
-class QuizBottomBar extends StatelessWidget {
-  const QuizBottomBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var quizProvider = Provider.of<QuizProvider>(context);
-    var questionProvider = Provider.of<QuestionProvider>(context);
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          OutlinedButton(
-            onPressed: () => {Navigator.pop(context)},
-            child: Text("Iesire"),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          //TODO: bottom sheet needs work, overrflow and design probably
-          OutlinedButton(
-            onPressed: Provider.of<QuestionProvider>(context, listen: false)
-                        .question
-                        .explanation ==
-                    null
-                ? () => {}
-                : () => {
-                      showBottomSheet(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(20)),
-                        ),
-                        context: context,
-                        backgroundColor: AppColors.bgShade2,
-                        builder: ((context) => DraggableScrollableSheet(
-                              maxChildSize: 0.90,
-                              expand: false,
-                              builder: ((context, scrollController) =>
-                                  SingleChildScrollView(
-                                    controller: scrollController,
-                                    child: ExplanationWidget(),
-                                  )),
-                            )),
-                      ),
-                    },
-            child: Text("Explicatie"),
-          ),
-          SizedBox(
-            width: !quizProvider.showReview ? 10 : 0,
-          ),
-          quizProvider.showReview
-              ? SizedBox.shrink()
-              : ElevatedButton(
-                  onPressed: () => {
-                        questionProvider.validate(quizProvider)
-                        // validate()
-                        //check if the answer is correct
-                      },
-                  child:
-                      Provider.of<QuestionProvider>(context).answeredIncorrectly
-                          ? Text("Evalueaza")
-                          : Text("Raspunde"))
-        ],
-      ),
-    );
-  }
-}
-
-class ExplanationWidget extends StatelessWidget {
-  const ExplanationWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    String? explanation = Provider.of<QuestionProvider>(context, listen: false)
-        .question
-        .explanation;
-    return Column(
-      children: [
-        SizedBox(
-          height: 10,
-        ),
-        Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: AppColors.bgShade1),
-          height: 8,
-          width: 50,
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Explicatie",
-                style: TextStyle(fontSize: 30, color: AppColors.white),
-              ),
-              Text(explanation == null ? "No explanation" : explanation,
-                  style: TextStyle(color: AppColors.white, fontSize: 16)),
-            ],
-          ),
-        ),
-      ],
-    );
   }
 }
 

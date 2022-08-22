@@ -15,23 +15,24 @@ class ChestionareApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          color: AppColors.bgShade2,
-        ),
-        textTheme: GoogleFonts.nunitoSansTextTheme(),
-        scaffoldBackgroundColor: AppColors.bgColor,
-        outlinedButtonTheme: OutlinedButtonThemeData(
-          style: OutlinedButton.styleFrom(
-            side: const BorderSide(width: 1, color: Colors.blue),
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            color: AppColors.bgShade2,
+          ),
+          textTheme: GoogleFonts.nunitoSansTextTheme(),
+          scaffoldBackgroundColor: AppColors.bgColor,
+          outlinedButtonTheme: OutlinedButtonThemeData(
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(width: 1, color: Colors.blue),
+            ),
           ),
         ),
-      ),
-      home: ChangeNotifierProvider(
-        create: (_) => QuestionStatsProvider(),
-        child: const HomePage(),
-      ),
-    );
+        home: MainPage()
+        // home: ChangeNotifierProvider(
+        //   create: (_) => QuestionStatsProvider(),
+        //   child: const HomePage(),
+        // ),
+        );
   }
 }

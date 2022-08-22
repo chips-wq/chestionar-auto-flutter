@@ -3,7 +3,7 @@
 import 'package:chestionar_auto/core/provider/question_provider.dart';
 import 'package:chestionar_auto/ui/shared/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:chestionar_auto/ui/widgets/quiz_answer.dart';
+import 'package:chestionar_auto/ui/widgets/quiz/quiz_answer.dart';
 import 'package:provider/provider.dart';
 
 class QuestionBody extends StatelessWidget {

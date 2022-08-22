@@ -29,6 +29,7 @@ class ProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var quizProvider = Provider.of<QuizProvider>(context, listen: false);
+    //scroll the progress bar into view
     if (quizProvider.scrollController.hasClients) {
       quizProvider.scrollController.position.ensureVisible(
         quizProvider.scrollKeys[quizProvider.questionIndex].currentContext!
