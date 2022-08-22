@@ -1,4 +1,6 @@
+import 'package:chestionar_auto/core/provider/enums.dart';
 import 'package:chestionar_auto/core/provider/question_provider.dart';
+import 'package:chestionar_auto/core/provider/question_stats_provider.dart';
 import 'package:chestionar_auto/core/provider/quiz_provider.dart';
 import 'package:chestionar_auto/ui/shared/app_colors.dart';
 import 'package:chestionar_auto/ui/widgets/quiz/quiz_bottom_bar.dart';
@@ -10,13 +12,16 @@ import 'package:chestionar_auto/ui/widgets/quiz/review_body.dart';
 import 'package:provider/provider.dart';
 
 class QuizWrapper extends StatelessWidget {
+  final DrivingCategory drivingCategory;
   const QuizWrapper({
+    required this.drivingCategory,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create: (_) => QuizProvider(), child: Quiz());
+    return ChangeNotifierProvider(
+        create: (_) => QuizProvider(drivingCategory), child: Quiz());
   }
 }
 

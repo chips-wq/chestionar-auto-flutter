@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:chestionar_auto/core/provider/enums.dart';
 import 'package:chestionar_auto/core/provider/question_stats_provider.dart';
 import 'package:chestionar_auto/core/services/database_helper.dart';
 import 'package:chestionar_auto/ui/screens/quiz.dart';
@@ -28,7 +29,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => QuestionStatsProvider(),
+      create: (_) => QuestionStatsProvider(DrivingCategory.B),
       child: Scaffold(
         appBar: AppBars[currentIndex],
         body: Screens[currentIndex],
@@ -70,6 +71,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DrivingCategory drivingCategory =
+        Provider.of<QuestionStatsProvider>(context, listen: false)
+            .drivingCategory;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -88,7 +92,7 @@ class HomePage extends StatelessWidget {
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Consumer<QuestionStatsProvider>(
                     builder: (context, questionStats, child) {
-                  if (questionStats.stats == null) {
+                  if (questionStats.isLoading) {
                     return Container(
                       height: 225,
                       width: 200,
@@ -126,14 +130,14 @@ class HomePage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () => {
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const QuizWrapper(),
-                          ),
-                        ).then((value) => Provider.of<QuestionStatsProvider>(
-                                context,
-                                listen: false)
-                            .fetchQuestionStats())
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => QuizWrapper(
+                                      drivingCategory: drivingCategory,
+                                    ))).then((value) =>
+                            Provider.of<QuestionStatsProvider>(context,
+                                    listen: false)
+                                .fetchQuestionStats())
                       },
                       child: Text("Practica"),
                     ),
@@ -154,7 +158,7 @@ class HomePage extends StatelessWidget {
                   children: [
                     QuestionInformationBox(
                         categoryName: "De revizuit",
-                        loading: questionStats.stats == null ? true : false,
+                        loading: questionStats.isLoading,
                         amountQuestions:
                             questionStats.stats?.toReviewNowQuestions,
                         borderColor: AppColors.teal3,
@@ -164,7 +168,7 @@ class HomePage extends StatelessWidget {
                     ),
                     QuestionInformationBox(
                         categoryName: "De invatat",
-                        loading: questionStats.stats == null ? true : false,
+                        loading: questionStats.isLoading,
                         amountQuestions:
                             questionStats.stats?.toLearnNowQuestions,
                         borderColor: AppColors.orange,
@@ -174,7 +178,7 @@ class HomePage extends StatelessWidget {
                     ),
                     QuestionInformationBox(
                         categoryName: "Nevazute",
-                        loading: questionStats.stats == null ? true : false,
+                        loading: questionStats.isLoading,
                         amountQuestions:
                             questionStats.stats?.neverSeenQuestions,
                         borderColor: AppColors.lightBlue,
