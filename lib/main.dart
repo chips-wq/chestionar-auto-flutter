@@ -34,7 +34,7 @@ class ChestionareApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/',
+      initialRoute: '/tutorial',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

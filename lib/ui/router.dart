@@ -4,6 +4,7 @@ import 'package:chestionar_auto/core/provider/subcategory_provider.dart';
 import 'package:chestionar_auto/ui/screens/homepage.dart';
 import 'package:chestionar_auto/ui/screens/quiz.dart';
 import 'package:chestionar_auto/ui/screens/subcategory.dart';
+import 'package:chestionar_auto/ui/screens/tutorial.dart';
 import 'package:chestionar_auto/ui/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,11 +29,6 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => MainPage());
-      // case 'login':
-      //   return MaterialPageRoute(builder: (_) => LoginView());
-      // case 'post':
-      //   var post = settings.arguments as Post;
-      //   return MaterialPageRoute(builder: (_) => PostView(post: post));
       case '/quiz':
         var quizPageData = settings.arguments as QuizPageData;
         return MaterialPageRoute(
@@ -54,11 +50,14 @@ class RouteGenerator {
             child: SubcategoryScreen(),
           ),
         );
+
+      case '/tutorial':
+        return MaterialPageRoute(builder: (context) => TutorialScreen());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
                   body: Center(
-                    child: Text('No route defined for ${settings.name}',
+                    child: Text('Cum ai ajuns aici ${settings.name}',
                         style: TextStyle(fontSize: 24, color: AppColors.white)),
                   ),
                 ));

@@ -1,8 +1,5 @@
-import 'package:chestionar_auto/core/models/questions_stats.dart';
-import 'package:chestionar_auto/core/models/subcategory_model.dart';
 import 'package:chestionar_auto/core/provider/subcategory_provider.dart';
 import 'package:chestionar_auto/ui/router.dart';
-import 'package:chestionar_auto/ui/screens/quiz.dart';
 import 'package:chestionar_auto/ui/widgets/question_stats_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
