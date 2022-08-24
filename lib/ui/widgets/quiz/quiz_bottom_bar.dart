@@ -8,6 +8,37 @@ import 'package:provider/provider.dart';
 class QuizBottomBar extends StatelessWidget {
   const QuizBottomBar({Key? key}) : super(key: key);
 
+  void goForward(BuildContext context, QuizProvider quizProvider) {
+    //either goes to review if this is practice or to the next question if this is simulation(is practice is false)
+    if (quizProvider.isPractice) {
+      quizProvider.toggleReview();
+    } else {
+      var ended = !quizProvider.nextQuestion();
+      if (ended) {
+        Navigator.pop(context);
+      }
+    }
+  }
+
+  void validateAnswer(BuildContext context, QuestionProvider questionProvider,
+      QuizProvider quizProvider) {
+    bool isCorrect = questionProvider.validate(quizProvider);
+    if (isCorrect) {
+      goForward(context, quizProvider);
+    }
+  }
+
+  String getMainButtonText(bool answeredIncorrectly, bool isPractice) {
+    if (answeredIncorrectly) {
+      if (isPractice) {
+        return 'Evalueaza';
+      } else {
+        return 'Urmatoarea';
+      }
+    }
+    return 'Raspunde';
+  }
+
   @override
   Widget build(BuildContext context) {
     var quizProvider = Provider.of<QuizProvider>(context);
@@ -26,10 +57,7 @@ class QuizBottomBar extends StatelessWidget {
             width: 10,
           ),
           OutlinedButton(
-            onPressed: Provider.of<QuestionProvider>(context, listen: false)
-                        .question
-                        .explanation ==
-                    null
+            onPressed: questionProvider.question.explanation == null
                 ? () => {}
                 : () => {
                       showBottomSheet(
@@ -58,15 +86,17 @@ class QuizBottomBar extends StatelessWidget {
           quizProvider.showReview
               ? SizedBox.shrink()
               : ElevatedButton(
-                  onPressed: () => {
-                        questionProvider.validate(quizProvider)
-                        // validate()
-                        //check if the answer is correct
-                      },
-                  child:
-                      Provider.of<QuestionProvider>(context).answeredIncorrectly
-                          ? Text("Evalueaza")
-                          : Text("Raspunde"))
+                  onPressed: questionProvider.answeredIncorrectly
+                      ? () => goForward(context, quizProvider)
+                      : () => {
+                            validateAnswer(
+                                context, questionProvider, quizProvider)
+                          },
+                  child: Text(
+                    getMainButtonText(questionProvider.answeredIncorrectly,
+                        quizProvider.isPractice),
+                  ),
+                )
         ],
       ),
     );

@@ -14,7 +14,7 @@ class QuestionBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var currQuestion =
-        Provider.of<QuestionProvider>(context, listen: false).question;
+        Provider.of<QuestionProvider>(context, listen: true).question;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

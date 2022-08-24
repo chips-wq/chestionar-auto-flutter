@@ -90,10 +90,6 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Text(
-              //   "Statistici",
-              //   style: TextStyle(fontSize: 36, color: AppColors.white),
-              // ),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Consumer<GeneralQuestionStatsProvider>(
                     builder: (context, questionStats, child) {
@@ -138,6 +134,7 @@ class HomePage extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => QuizWrapper(
+                              isPractice: true,
                               drivingCategory: drivingCategory,
                               subcategory:
                                   null, //no subcategory meaning it is general(takes all questions)
@@ -151,7 +148,22 @@ class HomePage extends StatelessWidget {
                       child: Text("Practica"),
                     ),
                     ElevatedButton(
-                      onPressed: () => {},
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => QuizWrapper(
+                              isPractice: false,
+                              drivingCategory: drivingCategory,
+                              subcategory:
+                                  null, //no subcategory meaning it is general(takes all questions)
+                            ),
+                          ),
+                        ).then((value) =>
+                            Provider.of<GeneralQuestionStatsProvider>(context,
+                                    listen: false)
+                                .fetchQuestionStats())
+                      },
                       child: Text("Simulare"),
                     ),
                   ],

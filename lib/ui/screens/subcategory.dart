@@ -2,8 +2,6 @@ import 'package:chestionar_auto/core/models/questions_stats.dart';
 import 'package:chestionar_auto/core/models/subcategory_model.dart';
 import 'package:chestionar_auto/core/provider/subcategory_provider.dart';
 import 'package:chestionar_auto/ui/screens/quiz.dart';
-import 'package:chestionar_auto/ui/shared/app_colors.dart';
-import 'package:chestionar_auto/ui/widgets/question_information_widget.dart';
 import 'package:chestionar_auto/ui/widgets/question_stats_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +30,7 @@ class SubcategoryScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => QuizWrapper(
+                          isPractice: true,
                           drivingCategory: subcategoryProvider.drivingCategory,
                           subcategory: subcategoryProvider
                               .subcategory, //no subcategory meaning it is general(takes all questions)

@@ -114,6 +114,7 @@ class DatabaseHelper {
       questionMap = await getPracticeQuestions(
           numQuestions, drivingCategory, subcategory);
     } else {
+      print("choosing 27 random questions");
       Database db = await database();
       questionMap.addAll(await db.query('questions',
           where: 'category = ?',

@@ -3,7 +3,6 @@ import 'package:chestionar_auto/core/models/subcategory_model.dart';
 import 'package:chestionar_auto/core/provider/enums.dart';
 import 'package:chestionar_auto/core/services/database_helper.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:sqflite/sqflite.dart';
 
 class GeneralQuestionStatsProvider extends ChangeNotifier {
   bool isLoading = false;

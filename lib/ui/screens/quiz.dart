@@ -13,9 +13,11 @@ import 'package:chestionar_auto/ui/widgets/quiz/review_body.dart';
 import 'package:provider/provider.dart';
 
 class QuizWrapper extends StatelessWidget {
+  final bool isPractice;
   final DrivingCategory drivingCategory;
   final Subcategory? subcategory;
   const QuizWrapper({
+    required this.isPractice,
     required this.drivingCategory,
     this.subcategory,
     Key? key,
@@ -24,7 +26,7 @@ class QuizWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (_) => QuizProvider(drivingCategory, subcategory),
+        create: (_) => QuizProvider(isPractice, drivingCategory, subcategory),
         child: Quiz());
   }
 }
@@ -64,6 +66,7 @@ class Quiz extends StatelessWidget {
               //whenever the question index changes, update everything
               selector: (context, quizProvider) => quizProvider.questionIndex,
               builder: (context, questionIndex, child) {
+                print("Question index changed $questionIndex");
                 return ListenableProxyProvider0(
                   update: (context, _) =>
                       QuestionProvider(question: quiz[questionIndex]),

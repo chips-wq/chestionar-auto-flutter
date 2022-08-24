@@ -59,15 +59,17 @@ class QualityBox extends StatelessWidget {
   const QualityBox({required this.quality, Key? key}) : super(key: key);
 
   void rateQuestion(context, QuestionProvider questionProvider,
-      Function() nextQuestion, int quality) {
+      QuizProvider quizProvider, int quality) {
     var currQuestion = questionProvider.question;
-    //TODO : move update to appropriate location
+    //TODO : move database update to appropriate location
     currQuestion.updateSm2(quality);
     print(currQuestion);
     DatabaseHelper().updateQuestion(currQuestion);
-    var ended = !nextQuestion();
+    var ended = !quizProvider.nextQuestion();
     if (ended) {
       Navigator.pop(context);
+    } else {
+      quizProvider.toggleReview();
     }
   }
 
@@ -98,7 +100,7 @@ class QualityBox extends StatelessWidget {
         onPressed: () => rateQuestion(
             context,
             Provider.of<QuestionProvider>(context, listen: false),
-            Provider.of<QuizProvider>(context, listen: false).nextQuestion,
+            Provider.of<QuizProvider>(context, listen: false),
             quality),
         style: ElevatedButton.styleFrom(
           primary: getColor(quality),

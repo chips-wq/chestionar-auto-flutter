@@ -26,12 +26,8 @@ class QuestionProvider extends ChangeNotifier {
       : selectedAnswers =
             question.answers.map((e) => AnswerState.unselected).toList();
 
-  void validate(QuizProvider quizProvider) {
-    if (answeredIncorrectly) {
-      //if we go here it means that the user already answered the question and we should just show the review so we go the next one
-      quizProvider.toggleReview();
-      return;
-    }
+  bool validate(QuizProvider quizProvider) {
+    //returns true if correct false otherwise
     if (!QuestionUtils.isSelectedCorrect(
         selectedAnswers, question.correctAnswer)) {
       //this branch handles incorrect answer of a question
@@ -45,9 +41,10 @@ class QuestionProvider extends ChangeNotifier {
               .toList();
       quizProvider.setCurrentIncorrect();
       notifyListeners();
-      return;
+      return false;
     }
+    //this branch handles if it was a correct answer
     quizProvider.setCurrentCorrect();
-    quizProvider.toggleReview();
+    return true;
   }
 }

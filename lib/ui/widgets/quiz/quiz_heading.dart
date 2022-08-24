@@ -82,12 +82,15 @@ class QuizHeading extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
-              Provider.of<QuestionProvider>(context, listen: false)
-                  .question
-                  .typeName,
-              style: const TextStyle(fontSize: 22, color: AppColors.white),
-            ),
+            quizProvider.isPractice
+                ? Text(
+                    Provider.of<QuestionProvider>(context, listen: false)
+                        .question
+                        .typeName,
+                    style:
+                        const TextStyle(fontSize: 22, color: AppColors.white),
+                  )
+                : SizedBox.shrink(),
           ]),
       const SizedBox(height: 10),
       //progress bar

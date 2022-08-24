@@ -19,7 +19,6 @@ class SubcategoryProvider extends ChangeNotifier {
   }
 
   SubcategoryProvider(this.drivingCategory, this.subcategory) {
-    print("Subcategory provider constructor");
     getSubcategoryStats();
   }
 }

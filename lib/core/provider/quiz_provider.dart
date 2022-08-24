@@ -12,6 +12,7 @@ class QuizProvider extends ChangeNotifier {
   int wrongAnswers = 0;
 
   bool showReview = false;
+  final bool isPractice;
 
   ScrollController scrollController = ScrollController();
   late List<int> statusHistory;
@@ -36,7 +37,6 @@ class QuizProvider extends ChangeNotifier {
 
   bool nextQuestion() {
     //returns true if it got to the next question(if there is one) and false otherwise
-    toggleReview();
     if (questionIndex + 1 < quiz!.length) {
       questionIndex++;
       notifyListeners();
@@ -47,14 +47,14 @@ class QuizProvider extends ChangeNotifier {
 
   Future<void> getQuiz(
       DrivingCategory drivingCategory, Subcategory? subcategory) async {
-    quiz =
-        await DatabaseHelper().getQuestions(26, drivingCategory, subcategory);
+    quiz = await DatabaseHelper()
+        .getQuestions(26, drivingCategory, subcategory, isPractice);
     statusHistory = quiz!.map((e) => 0).toList();
     scrollKeys = quiz!.map((e) => GlobalKey()).toList();
     notifyListeners();
   }
 
-  QuizProvider(DrivingCategory drivingCategory, Subcategory? subcategory) {
+  QuizProvider(this.isPractice, drivingCategory, Subcategory? subcategory) {
     getQuiz(drivingCategory, subcategory);
   }
 }
