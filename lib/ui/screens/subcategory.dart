@@ -1,6 +1,7 @@
 import 'package:chestionar_auto/core/models/questions_stats.dart';
 import 'package:chestionar_auto/core/models/subcategory_model.dart';
 import 'package:chestionar_auto/core/provider/subcategory_provider.dart';
+import 'package:chestionar_auto/ui/router.dart';
 import 'package:chestionar_auto/ui/screens/quiz.dart';
 import 'package:chestionar_auto/ui/widgets/question_stats_widget.dart';
 import 'package:flutter/material.dart';
@@ -26,17 +27,13 @@ class SubcategoryScreen extends StatelessWidget {
           }),
           ElevatedButton(
               onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => QuizWrapper(
-                          isPractice: true,
-                          drivingCategory: subcategoryProvider.drivingCategory,
-                          subcategory: subcategoryProvider
-                              .subcategory, //no subcategory meaning it is general(takes all questions)
-                        ),
-                      ),
-                    ).then((value) => subcategoryProvider.getSubcategoryStats())
+                    Navigator.pushNamed(context, '/quiz',
+                            arguments: QuizPageData(
+                                true,
+                                subcategoryProvider.drivingCategory,
+                                subcategoryProvider.subcategory))
+                        .then((value) =>
+                            subcategoryProvider.getSubcategoryStats())
                   },
               child: Text("Practica"))
         ]),

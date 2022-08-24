@@ -5,6 +5,7 @@ import 'package:chestionar_auto/core/provider/enums.dart';
 import 'package:chestionar_auto/core/provider/question_stats_provider.dart';
 import 'package:chestionar_auto/core/provider/subcategory_provider.dart';
 import 'package:chestionar_auto/core/services/database_helper.dart';
+import 'package:chestionar_auto/ui/router.dart';
 import 'package:chestionar_auto/ui/screens/quiz.dart';
 import 'package:chestionar_auto/ui/screens/setari.dart';
 import 'package:chestionar_auto/ui/screens/subcategory.dart';
@@ -130,39 +131,27 @@ class HomePage extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => QuizWrapper(
-                              isPractice: true,
-                              drivingCategory: drivingCategory,
-                              subcategory:
-                                  null, //no subcategory meaning it is general(takes all questions)
-                            ),
-                          ),
-                        ).then((value) =>
-                            Provider.of<GeneralQuestionStatsProvider>(context,
-                                    listen: false)
-                                .fetchQuestionStats())
+                        Navigator.pushNamed(context, '/quiz',
+                                arguments:
+                                    QuizPageData(true, drivingCategory, null))
+                            .then((value) =>
+                                Provider.of<GeneralQuestionStatsProvider>(
+                                        context,
+                                        listen: false)
+                                    .fetchQuestionStats())
                       },
                       child: Text("Practica"),
                     ),
                     ElevatedButton(
                       onPressed: () => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => QuizWrapper(
-                              isPractice: false,
-                              drivingCategory: drivingCategory,
-                              subcategory:
-                                  null, //no subcategory meaning it is general(takes all questions)
-                            ),
-                          ),
-                        ).then((value) =>
-                            Provider.of<GeneralQuestionStatsProvider>(context,
-                                    listen: false)
-                                .fetchQuestionStats())
+                        Navigator.pushNamed(context, '/quiz',
+                                arguments:
+                                    QuizPageData(false, drivingCategory, null))
+                            .then((value) =>
+                                Provider.of<GeneralQuestionStatsProvider>(
+                                        context,
+                                        listen: false)
+                                    .fetchQuestionStats())
                       },
                       child: Text("Simulare"),
                     ),
@@ -230,17 +219,9 @@ class HomePage extends StatelessWidget {
                       margin: EdgeInsets.only(right: 15),
                       child: ElevatedButton(
                         onPressed: () => {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChangeNotifierProvider(
-                                create: (_) => SubcategoryProvider(
-                                    drivingCategory, subcategories[i]),
-                                lazy: false,
-                                child: SubcategoryScreen(),
-                              ),
-                            ),
-                          )
+                          Navigator.pushNamed(context, '/subcategory',
+                              arguments: SubcategoryPageData(
+                                  drivingCategory, subcategories[i]))
                         },
                         style: OutlinedButton.styleFrom(
                           backgroundColor: AppColors.bgShade2,
