@@ -1,4 +1,5 @@
 import 'package:chestionar_auto/core/models/question_model.dart';
+import 'package:chestionar_auto/core/models/subcategory_model.dart';
 import 'package:chestionar_auto/core/provider/enums.dart';
 import 'package:chestionar_auto/core/services/database_helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,14 +45,16 @@ class QuizProvider extends ChangeNotifier {
     return false;
   }
 
-  Future<void> getQuiz(DrivingCategory drivingCategory) async {
-    quiz = await DatabaseHelper().getQuestions(26, drivingCategory);
+  Future<void> getQuiz(
+      DrivingCategory drivingCategory, Subcategory? subcategory) async {
+    quiz =
+        await DatabaseHelper().getQuestions(26, drivingCategory, subcategory);
     statusHistory = quiz!.map((e) => 0).toList();
     scrollKeys = quiz!.map((e) => GlobalKey()).toList();
     notifyListeners();
   }
 
-  QuizProvider(DrivingCategory drivingCategory) {
-    getQuiz(drivingCategory);
+  QuizProvider(DrivingCategory drivingCategory, Subcategory? subcategory) {
+    getQuiz(drivingCategory, subcategory);
   }
 }

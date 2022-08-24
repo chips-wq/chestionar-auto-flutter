@@ -21,13 +21,15 @@ class SetariPage extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 20,
-            runSpacing: 20,
-            children: DrivingCategory.values
-                .map((value) => MiniCategoryWidget(drivingCategory: value))
-                .toList(),
+          Center(
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 20,
+              runSpacing: 20,
+              children: DrivingCategory.values
+                  .map((value) => MiniCategoryWidget(drivingCategory: value))
+                  .toList(),
+            ),
           )
         ],
       ),
@@ -44,14 +46,13 @@ class MiniCategoryWidget extends StatelessWidget {
   }) : super(key: key);
 
   void updateDrivingCategory(BuildContext context) {
-    Provider.of<QuestionStatsProvider>(context, listen: false)
+    Provider.of<GeneralQuestionStatsProvider>(context, listen: false)
         .updateDrivingCategory(drivingCategory);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        duration: Duration(milliseconds: 500),
+        duration: Duration(seconds: 1),
         content: Text(
           "Categoria schimbata in ${drivingCategory.toShortString()}",
-          style: TextStyle(color: AppColors.white, fontSize: 18),
         ),
       ),
     );
@@ -71,8 +72,8 @@ class MiniCategoryWidget extends StatelessWidget {
         ],
         borderRadius: BorderRadius.circular(8),
       ),
-      height: 100,
-      width: 100,
+      height: 80,
+      width: 80,
       child: ElevatedButton(
         style: OutlinedButton.styleFrom(
           backgroundColor: AppColors.bgShade2,

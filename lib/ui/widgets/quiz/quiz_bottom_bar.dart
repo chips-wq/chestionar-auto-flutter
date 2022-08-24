@@ -25,7 +25,6 @@ class QuizBottomBar extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-          //TODO: bottom sheet needs work, overrflow and design probably
           OutlinedButton(
             onPressed: Provider.of<QuestionProvider>(context, listen: false)
                         .question

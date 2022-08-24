@@ -17,7 +17,12 @@ class ChestionareApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          appBarTheme: AppBarTheme(
+          snackBarTheme: const SnackBarThemeData(
+              backgroundColor: AppColors.white,
+              contentTextStyle:
+                  TextStyle(color: AppColors.bgShade2, fontSize: 15),
+              behavior: SnackBarBehavior.floating),
+          appBarTheme: const AppBarTheme(
             color: AppColors.bgShade2,
           ),
           textTheme: GoogleFonts.nunitoSansTextTheme(),
@@ -28,11 +33,6 @@ class ChestionareApp extends StatelessWidget {
             ),
           ),
         ),
-        home: MainPage()
-        // home: ChangeNotifierProvider(
-        //   create: (_) => QuestionStatsProvider(),
-        //   child: const HomePage(),
-        // ),
-        );
+        home: MainPage());
   }
 }

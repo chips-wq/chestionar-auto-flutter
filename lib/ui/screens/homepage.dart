@@ -1,11 +1,16 @@
 import 'dart:math';
 
+import 'package:chestionar_auto/core/models/subcategory_model.dart';
 import 'package:chestionar_auto/core/provider/enums.dart';
 import 'package:chestionar_auto/core/provider/question_stats_provider.dart';
+import 'package:chestionar_auto/core/provider/subcategory_provider.dart';
 import 'package:chestionar_auto/core/services/database_helper.dart';
 import 'package:chestionar_auto/ui/screens/quiz.dart';
 import 'package:chestionar_auto/ui/screens/setari.dart';
+import 'package:chestionar_auto/ui/screens/subcategory.dart';
 import 'package:chestionar_auto/ui/shared/app_colors.dart';
+import 'package:chestionar_auto/ui/widgets/question_information_widget.dart';
+import 'package:chestionar_auto/ui/widgets/question_stats_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +34,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => QuestionStatsProvider(DrivingCategory.B),
+      create: (_) => GeneralQuestionStatsProvider(DrivingCategory.B),
       child: Scaffold(
         appBar: AppBars[currentIndex],
         body: Screens[currentIndex],
@@ -72,7 +77,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DrivingCategory drivingCategory =
-        Provider.of<QuestionStatsProvider>(context, listen: false)
+        Provider.of<GeneralQuestionStatsProvider>(context, listen: false)
             .drivingCategory;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +95,7 @@ class HomePage extends StatelessWidget {
               //   style: TextStyle(fontSize: 36, color: AppColors.white),
               // ),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Consumer<QuestionStatsProvider>(
+                Consumer<GeneralQuestionStatsProvider>(
                     builder: (context, questionStats, child) {
                   if (questionStats.isLoading) {
                     return Container(
@@ -130,12 +135,16 @@ class HomePage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () => {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => QuizWrapper(
-                                      drivingCategory: drivingCategory,
-                                    ))).then((value) =>
-                            Provider.of<QuestionStatsProvider>(context,
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => QuizWrapper(
+                              drivingCategory: drivingCategory,
+                              subcategory:
+                                  null, //no subcategory meaning it is general(takes all questions)
+                            ),
+                          ),
+                        ).then((value) =>
+                            Provider.of<GeneralQuestionStatsProvider>(context,
                                     listen: false)
                                 .fetchQuestionStats())
                       },
@@ -151,40 +160,11 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Consumer<QuestionStatsProvider>(
+              Consumer<GeneralQuestionStatsProvider>(
                   builder: (context, questionStats, child) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    QuestionInformationBox(
-                        categoryName: "De revizuit",
-                        loading: questionStats.isLoading,
-                        amountQuestions:
-                            questionStats.stats?.toReviewNowQuestions,
-                        borderColor: AppColors.teal3,
-                        bottomText: "Ramase"),
-                    SizedBox(
-                      width: 6,
-                    ),
-                    QuestionInformationBox(
-                        categoryName: "De invatat",
-                        loading: questionStats.isLoading,
-                        amountQuestions:
-                            questionStats.stats?.toLearnNowQuestions,
-                        borderColor: AppColors.orange,
-                        bottomText: "Ramase"),
-                    SizedBox(
-                      width: 6,
-                    ),
-                    QuestionInformationBox(
-                        categoryName: "Nevazute",
-                        loading: questionStats.isLoading,
-                        amountQuestions:
-                            questionStats.stats?.neverSeenQuestions,
-                        borderColor: AppColors.lightBlue,
-                        bottomText: "Ramase"),
-                  ],
-                );
+                return QuestionStatsWidget(
+                    isLoading: questionStats.isLoading,
+                    stats: questionStats.stats);
               }),
               SizedBox(
                 height: 10,
@@ -215,61 +195,58 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              Text("Categorii",
-                  style: TextStyle(fontSize: 28, color: AppColors.white))
+              Text(
+                "Categorii",
+                style: TextStyle(fontSize: 28, color: AppColors.white),
+              ),
+              Consumer<GeneralQuestionStatsProvider>(
+                  builder: ((context, questionStats, child) {
+                if (questionStats.isLoading) {
+                  return Text(
+                    "Se incarca...",
+                    style: TextStyle(color: AppColors.white, fontSize: 24),
+                  );
+                }
+                final subcategories = questionStats.subcategories!;
+                return Container(
+                  height: 110,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: subcategories.length,
+                    itemBuilder: (context, i) => Container(
+                      width: 110,
+                      margin: EdgeInsets.only(right: 15),
+                      child: ElevatedButton(
+                        onPressed: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChangeNotifierProvider(
+                                create: (_) => SubcategoryProvider(
+                                    drivingCategory, subcategories[i]),
+                                lazy: false,
+                                child: SubcategoryScreen(),
+                              ),
+                            ),
+                          )
+                        },
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: AppColors.bgShade2,
+                        ),
+                        child: Text(
+                          subcategories[i].name,
+                          style:
+                              TextStyle(fontSize: 14, color: AppColors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }))
             ],
           ),
         )
       ],
-    );
-  }
-}
-
-class QuestionInformationBox extends StatelessWidget {
-  final String categoryName;
-  final bool loading;
-  final int? amountQuestions;
-  final String bottomText;
-  final Color borderColor;
-
-  const QuestionInformationBox(
-      {required this.categoryName,
-      required this.loading,
-      required this.amountQuestions,
-      required this.bottomText,
-      required this.borderColor,
-      Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(width: 3, color: borderColor),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      padding: EdgeInsets.all(12),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(
-          categoryName,
-          style: TextStyle(fontSize: 16, color: AppColors.white),
-        ),
-        loading
-            ? Container(height: 12, width: 60, color: AppColors.bgShade1)
-            : Text(
-                "$amountQuestions",
-                style: TextStyle(fontSize: 16, color: AppColors.white),
-              ),
-        SizedBox(
-          height: loading ? 5 : 0,
-        ),
-        loading
-            ? Container(height: 12, width: 50, color: AppColors.bgShade1)
-            : Text(
-                "$bottomText",
-                style: TextStyle(fontSize: 16, color: AppColors.bgShade1),
-              ),
-      ]),
     );
   }
 }

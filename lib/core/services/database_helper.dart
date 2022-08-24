@@ -1,4 +1,5 @@
 import 'package:chestionar_auto/core/models/questions_stats.dart';
+import 'package:chestionar_auto/core/models/subcategory_model.dart';
 import 'package:chestionar_auto/core/provider/enums.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
@@ -51,34 +52,78 @@ class DatabaseHelper {
     return await openDatabase(path, version: 1);
   }
 
-  Future<List<Question>> getQuestions(
-      int numQuestions, DrivingCategory drivingCategory) async {
+  Future<List<Map>> getPracticeQuestions(
+      int numQuestions, DrivingCategory drivingCategory,
+      [Subcategory? subcategory]) async {
     int MIN_NEVER_SEEN = 10;
     print("limit is $numQuestions");
     print("The driving category is $drivingCategory");
     numQuestions -= MIN_NEVER_SEEN;
     Database _db = await database();
     final List<Map> questionMap = [];
-    List<Map> learningMode = await _db.rawQuery(
-        'SELECT * FROM questions WHERE CATEGORY=? AND nextDueTime IS NOT NULL AND strftime(\'%s\' , \'now\') > nextDueTime AND stage=0 ORDER BY RANDOM() LIMIT ?;',
-        [drivingCategory.toShortString(), numQuestions]);
+    //LEARNING QUESTIONS
+
+    List<String> queryArgs = [drivingCategory.toShortString()];
+    if (subcategory != null) {
+      queryArgs.add(subcategory.chapter.toString());
+    }
+    List<Map> learningMode = await _db.query('questions',
+        where:
+            'category = ? AND strftime(\'%s\' , \'now\') > nextDueTime AND stage=0 ${subcategory == null ? "" : "AND chapter = ?"}',
+        orderBy: 'RANDOM()',
+        limit: numQuestions,
+        whereArgs: queryArgs);
     questionMap.addAll(learningMode);
     print("We have ${learningMode.length} questions in learning mode.");
+
+    //REVIEW QUESTIONS
     if (questionMap.length < numQuestions) {
-      List<Map> reviewQuestions = await _db.rawQuery(
-          'SELECT * FROM questions WHERE CATEGORY=? AND nextDueTime IS NOT NULL AND strftime(\'%s\' , \'now\') > nextDueTime AND stage=1 ORDER BY RANDOM() LIMIT ?;',
-          [drivingCategory.toShortString(), numQuestions - questionMap.length]);
+      List<Map> reviewQuestions = await _db.query('questions',
+          where:
+              'category = ? AND strftime(\'%s\' , \'now\') > nextDueTime AND stage=1 ${subcategory == null ? "" : "AND chapter = ?"}',
+          orderBy: 'RANDOM()',
+          limit: numQuestions - questionMap.length,
+          whereArgs: queryArgs);
       print("We have ${reviewQuestions.length} questions in review mode.");
       questionMap.addAll(reviewQuestions);
     }
+
     int NEVER_SEEN = MIN_NEVER_SEEN + numQuestions - questionMap.length;
-    List<Map> neverSeenQuestions = await _db.rawQuery(
-        'SELECT * FROM questions WHERE CATEGORY=? and nextDueTime IS NULL ORDER BY RANDOM() LIMIT ?;',
-        [drivingCategory.toShortString(), NEVER_SEEN]);
+    //NEVER SEEN QUESTIONS
+    List<Map> neverSeenQuestions = await _db.query('questions',
+        where:
+            'category = ? AND nextDueTime IS NULL ${subcategory == null ? "" : "AND chapter = ?"}',
+        orderBy: 'RANDOM()',
+        limit: NEVER_SEEN,
+        whereArgs: queryArgs);
     print(
         "We have ${neverSeenQuestions.length} questions that have never been seen");
     questionMap.addAll(neverSeenQuestions);
     questionMap.shuffle();
+    return questionMap;
+  }
+
+  Future<List<Question>> getQuestions(
+    int numQuestions,
+    DrivingCategory drivingCategory, [
+    Subcategory? subcategory,
+    bool practice = true,
+  ]) async {
+    List<Map> questionMap = [];
+    if (practice) {
+      questionMap = await getPracticeQuestions(
+          numQuestions, drivingCategory, subcategory);
+    } else {
+      Database db = await database();
+      questionMap.addAll(await db.query('questions',
+          where: 'category = ?',
+          whereArgs: [drivingCategory.toShortString()],
+          limit: numQuestions,
+          orderBy: 'RANDOM ()'));
+    }
+    if (questionMap.isEmpty) {
+      return [];
+    }
     return List.generate(questionMap.length, (index) {
       return Question(
           id: questionMap[index]['id'],
@@ -128,34 +173,50 @@ class DatabaseHelper {
     );
   }
 
-  Future<QuestionsStats> getQuestionsStats(
+  Future<List<Subcategory>> getSubcategories(
       DrivingCategory drivingCategory) async {
-    final db = await database();
+    Database db = await database();
+    final List<Map> subcategoriesId = await db.rawQuery(
+        "SELECT DISTINCT(chapter) FROM questions WHERE category = ? ORDER BY chapter;",
+        [drivingCategory.toShortString()]);
 
+    final List<Subcategory> subcategoriesList =
+        subcategoriesId.map((e) => Subcategory(e['chapter'])).toList();
+
+    return subcategoriesList;
+  }
+
+  Future<QuestionsStats> getQuestionsStats(DrivingCategory drivingCategory,
+      [Subcategory? subcategory]) async {
+    final db = await database();
+    List<String> queryArgs = [drivingCategory.toShortString()];
+    if (subcategory != null) {
+      queryArgs.add(subcategory.chapter.toString());
+    }
     final int neverSeenQuestions = Sqflite.firstIntValue(await db.rawQuery(
         "SELECT COUNT(*) FROM questions WHERE CATEGORY= ? AND "
-        "nextDueTime IS NULL;",
-        [drivingCategory.toShortString()]))!;
+        "nextDueTime IS NULL ${subcategory == null ? "" : "AND chapter = ?"};",
+        queryArgs))!;
     final int learningQuestions = Sqflite.firstIntValue(await db.rawQuery(
         "SELECT COUNT(*) FROM questions WHERE CATEGORY=? AND "
-        "stage=0 AND nextDueTime IS NOT NULL;",
-        [drivingCategory.toShortString()]))!;
+        "stage=0 AND nextDueTime IS NOT NULL ${subcategory == null ? "" : "AND chapter = ?"};",
+        queryArgs))!;
     final int reviewQuestions = Sqflite.firstIntValue(await db.rawQuery(
         "SELECT COUNT(*) FROM questions WHERE CATEGORY= ? AND "
-        "stage=1;",
-        [drivingCategory.toShortString()]))!;
+        "stage=1 ${subcategory == null ? "" : "AND chapter = ?"};",
+        queryArgs))!;
 
     final int toLearnNowQuestions = Sqflite.firstIntValue(await db.rawQuery(
         "SELECT COUNT(*) FROM questions WHERE CATEGORY= ? AND "
-        "stage=0 AND strftime(\'%s\') > nextDueTime;",
-        [drivingCategory.toShortString()]))!;
+        "stage=0 AND strftime(\'%s\') > nextDueTime ${subcategory == null ? "" : "AND chapter = ?"};",
+        queryArgs))!;
 
     final int toReviewNowQuestions = Sqflite.firstIntValue(await db.rawQuery(
         "SELECT COUNT(*) FROM questions WHERE CATEGORY= ? AND "
-        "stage=1 AND strftime(\'%s\') > nextDueTime;",
-        [drivingCategory.toShortString()]))!;
+        "stage=1 AND strftime(\'%s\') > nextDueTime ${subcategory == null ? "" : "AND chapter = ?"};",
+        queryArgs))!;
 
-    await Future.delayed(Duration(milliseconds: 500));
+    //await Future.delayed(Duration(milliseconds: 500));
 
     QuestionsStats questionsStats = QuestionsStats(
       totalQuestions: neverSeenQuestions + learningQuestions + reviewQuestions,

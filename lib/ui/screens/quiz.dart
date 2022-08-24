@@ -1,3 +1,4 @@
+import 'package:chestionar_auto/core/models/subcategory_model.dart';
 import 'package:chestionar_auto/core/provider/enums.dart';
 import 'package:chestionar_auto/core/provider/question_provider.dart';
 import 'package:chestionar_auto/core/provider/question_stats_provider.dart';
@@ -13,15 +14,18 @@ import 'package:provider/provider.dart';
 
 class QuizWrapper extends StatelessWidget {
   final DrivingCategory drivingCategory;
+  final Subcategory? subcategory;
   const QuizWrapper({
     required this.drivingCategory,
+    this.subcategory,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (_) => QuizProvider(drivingCategory), child: Quiz());
+        create: (_) => QuizProvider(drivingCategory, subcategory),
+        child: Quiz());
   }
 }
 
@@ -44,6 +48,18 @@ class Quiz extends StatelessWidget {
               ),
             );
           }
+          if (quiz.isEmpty) {
+            //TODO: make this look nice
+            return const Scaffold(
+              body: Center(
+                child: Text(
+                  "Momentan nu mai exista intrebari, revino mai tarziu pentru a revizui!",
+                  style: TextStyle(fontSize: 16, color: AppColors.white),
+                ),
+              ),
+            );
+          }
+
           return Selector<QuizProvider, int>(
               //whenever the question index changes, update everything
               selector: (context, quizProvider) => quizProvider.questionIndex,
