@@ -20,14 +20,14 @@ class Tutorial3 extends StatelessWidget {
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          "Sa incepem",
+        const Text(
+          "Să începem",
           style: TextStyle(fontSize: 32, color: AppColors.white),
         ),
         OutlinedButton.icon(
-            icon: Icon(Icons.start),
+            icon: const Icon(Icons.start),
             onPressed: () => goToMainScreen(context),
-            label: Text("Incepe"))
+            label: const Text("Începe"))
       ],
     ));
   }

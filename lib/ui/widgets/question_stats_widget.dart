@@ -25,29 +25,29 @@ class QuestionStatsWidget extends StatelessWidget {
                   loading: isLoading,
                   amountQuestions: stats?.toReviewNowQuestions,
                   borderColor: AppColors.teal3,
-                  bottomText: "Ramase"),
+                  bottomText: "Rămase"),
             ),
             SizedBox(
               width: 6,
             ),
             Expanded(
               child: QuestionInformationBox(
-                  categoryName: "Invatare",
+                  categoryName: "Învățare",
                   loading: isLoading,
                   amountQuestions: stats?.toLearnNowQuestions,
                   borderColor: AppColors.orange,
-                  bottomText: "Ramase"),
+                  bottomText: "Rămase"),
             ),
             SizedBox(
               width: 6,
             ),
             Expanded(
               child: QuestionInformationBox(
-                  categoryName: "Nevazute",
+                  categoryName: "Nevăzute",
                   loading: isLoading,
                   amountQuestions: stats?.neverSeenQuestions,
                   borderColor: AppColors.lightBlue,
-                  bottomText: "Ramase"),
+                  bottomText: "Rămase"),
             ),
           ],
         ),

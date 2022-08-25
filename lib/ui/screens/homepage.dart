@@ -27,8 +27,8 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final List<PreferredSizeWidget?> AppBars = [
-    AppBar(title: Text('Acasa')),
-    AppBar(title: Text("Setari"))
+    AppBar(title: Text('Acasă')),
+    AppBar(title: Text("Setări"))
   ];
 
   final List<Widget> Screens = [HomePage(), SetariPage()];
@@ -65,10 +65,10 @@ class _MainPageState extends State<MainPage> {
               onTap: (newIndex) => setState(() {
                     currentIndex = newIndex;
                   }),
-              items: [
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Acasa'),
+              items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Acasă'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.settings), label: 'Setari'),
+                    icon: Icon(Icons.settings), label: 'Setări'),
               ]),
         ),
       ),
@@ -118,7 +118,7 @@ class HomePage extends StatelessWidget {
                       },
                       chartRadius:
                           min(400, MediaQuery.of(context).size.width / 2),
-                      centerText: "Intrebari",
+                      centerText: "Întrebări",
                       colorList: [
                         AppColors.teal3,
                         AppColors.lightBlue,
@@ -145,7 +145,7 @@ class HomePage extends StatelessWidget {
                                           listen: false)
                                       .fetchQuestionStats())
                         },
-                        child: Text("Practica"),
+                        child: const Text("Practică"),
                       ),
                       ElevatedButton(
                         onPressed: () => {
@@ -158,7 +158,7 @@ class HomePage extends StatelessWidget {
                                           listen: false)
                                       .fetchQuestionStats())
                         },
-                        child: Text("Simulare"),
+                        child: const Text("Simulare"),
                       ),
                     ],
                   )
@@ -195,7 +195,7 @@ class HomePage extends StatelessWidget {
                         onTap: () =>
                             Navigator.pushNamed(context, '/dataexplanation'),
                         child: Text(
-                          "Ce reprezinta aceste date?",
+                          "Ce reprezintă aceste date ?",
                           style:
                               TextStyle(fontSize: 16, color: AppColors.white),
                         ),

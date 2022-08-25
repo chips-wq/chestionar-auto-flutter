@@ -8,7 +8,7 @@ class DataExplanationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Ce reprezinta datele?")),
+      appBar: AppBar(title: Text("Ce reprezintă datele ?")),
       body: Container(
           padding: EdgeInsets.all(18),
           child: ScrollConfiguration(

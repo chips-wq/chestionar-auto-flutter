@@ -14,8 +14,8 @@ class Tutorial2 extends StatelessWidget {
       child: ScrollConfiguration(
         behavior: NoGlowBehavior(),
         child: ListView(
-          children: [
-            Text("Ce reprezinta datele?",
+          children: const [
+            Text("Ce reprezintă datele ?",
                 style: TextStyle(fontSize: 32, color: AppColors.white)),
             SizedBox(
               height: 12,
@@ -41,39 +41,39 @@ class DataExplanationWidget extends StatelessWidget {
         toLearnNowQuestions: 12,
         toReviewNowQuestions: 49);
     return Column(children: [
-      Text(
-          "Odata ce ai evaluat dificultatea unei intrebari, aplicatia calculeaza cand trebuie reamintita astfel incat sa ramana in memoria ta pe termen lung.",
+      const Text(
+          "Odată ce ai evaluat dificultatea unei întrebări, aplicația calculează cănd trebuie reamintită astfel încât să rămână în memoria ta pe termen lung.",
           style: TextStyle(fontSize: 16, color: AppColors.white)),
-      SizedBox(
+      const SizedBox(
         height: 15,
       ),
       QuestionStatsWidget(isLoading: false, stats: dummyQuestionStats),
-      SizedBox(
+      const SizedBox(
         height: 15,
       ),
-      CategoryExplanation(
+      const CategoryExplanation(
           firstText: "Categoria",
           categoryText: " Revizuire ",
           explanationText:
-              "reprezinta cate intrebari ai de revizuit in acest moment (acestea sunt reamintite la intervale mai lungi de timp cu ajutorul algoritmilor construiti pentru memorare).",
+              "reprezintă câte întrebări ai de revizuit în acest moment (acestea sunt reamintite la intervale mai lungi de timp cu ajutorul algoritmilor construiți pentru memorare).",
           categoryColor: AppColors.teal3),
-      SizedBox(
+      const SizedBox(
         height: 20,
       ),
-      CategoryExplanation(
+      const CategoryExplanation(
           firstText: "Categoria",
-          categoryText: " Invatare ",
+          categoryText: " Învățare ",
           explanationText:
-              "reprezinta cate intrebari ai de invatat in acest moment. (acestea sunt reamintite mult mai rapid).",
+              "reprezintă câte întrebări ai de învățat în acest moment (acestea sunt reamintite mult mai rapid).",
           categoryColor: AppColors.orange),
-      SizedBox(
+      const SizedBox(
         height: 20,
       ),
-      CategoryExplanation(
+      const CategoryExplanation(
           firstText: "Categoria",
-          categoryText: " Nevazute ",
+          categoryText: " Nevăzute ",
           explanationText:
-              "reprezinta cate intrebari nu ai vazut inca in sectiunea Practica.",
+              "reprezintă câte întrebări nu ai văzut încă în secțiunea Practică.",
           categoryColor: AppColors.lightBlue)
     ]);
   }

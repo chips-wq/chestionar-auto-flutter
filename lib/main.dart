@@ -1,10 +1,8 @@
-import 'package:chestionar_auto/core/provider/question_stats_provider.dart';
 import 'package:chestionar_auto/core/services/settings_service.dart';
 import 'package:chestionar_auto/ui/router.dart';
 import 'package:chestionar_auto/ui/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:chestionar_auto/ui/screens/homepage.dart';
 import 'package:provider/provider.dart';
 
 String getInitialRoute(SettingsService settingsProvider) {
@@ -13,13 +11,13 @@ String getInitialRoute(SettingsService settingsProvider) {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final SettingsService _settingsProvider = SettingsService();
-  await _settingsProvider.getPreferences();
+  final SettingsService settingsProvider = SettingsService();
+  await settingsProvider.getPreferences();
   runApp(
     Provider<SettingsService>.value(
-      value: _settingsProvider,
+      value: settingsProvider,
       child: ChestionareApp(
-        initialRoute: getInitialRoute(_settingsProvider),
+        initialRoute: getInitialRoute(settingsProvider),
       ),
     ),
   );

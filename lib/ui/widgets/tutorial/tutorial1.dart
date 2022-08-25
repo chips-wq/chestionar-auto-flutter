@@ -12,58 +12,58 @@ class Tutorial1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.fromLTRB(18, 10, 18, 100),
-        child: ScrollConfiguration(
-          behavior: NoGlowBehavior(),
-          child: ListView(
-            children: [
-              Text("Cum functioneaza?",
-                  style: TextStyle(fontSize: 32, color: AppColors.white)),
-              SizedBox(
-                height: 12,
-              ),
-              Text(
-                  "Vei fi prezentat cu intrebari din setul intrebarilor oficiale DRPCIV, iar dupa raspuns vei evalua dificultatea intrebarii cu ajutorul formularului de mai jos.",
-                  style: TextStyle(fontSize: 16, color: AppColors.white)),
-              SizedBox(
-                height: 15,
-              ),
-              ReviewSmallPreviewRow(
-                  text: "nu am stiut sa raspund deloc", quality: 0),
-              SizedBox(
-                height: 10,
-              ),
-              ReviewSmallPreviewRow(
-                  text: "am raspuns partial, imi aduc aminte putin",
-                  quality: 1),
-              SizedBox(
-                height: 10,
-              ),
-              ReviewSmallPreviewRow(
-                  text: "imi aduc aminte de intrebare, dar am raspuns partial",
-                  quality: 2),
-              SizedBox(
-                height: 10,
-              ),
-              ReviewSmallPreviewRow(
-                  text: "am stiut raspunsul dupa putin timp de gandire",
-                  quality: 3),
-              SizedBox(
-                height: 10,
-              ),
-              ReviewSmallPreviewRow(
-                  text: "am stiut raspunsul aproape imediat", quality: 4),
-              SizedBox(
-                height: 10,
-              ),
-              ReviewSmallPreviewRow(
-                  text: "am stiut raspunsul si a fost foarte usor", quality: 5),
-              SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
-        ));
+      padding: const EdgeInsets.fromLTRB(18, 10, 18, 100),
+      child: ScrollConfiguration(
+        behavior: NoGlowBehavior(),
+        child: ListView(
+          children: const [
+            Text("Cum funcționează ?",
+                style: TextStyle(fontSize: 32, color: AppColors.white)),
+            SizedBox(
+              height: 12,
+            ),
+            Text(
+                "Vei fi prezentat cu întrebări din setul întrebărilor oficiale DRPCIV, iar dupa răspuns vei evalua dificultatea întrebării cu ajutorul formularului de mai jos.",
+                style: TextStyle(fontSize: 16, color: AppColors.white)),
+            SizedBox(
+              height: 15,
+            ),
+            ReviewSmallPreviewRow(
+                text: "nu am știut să răspund deloc", quality: 0),
+            SizedBox(
+              height: 10,
+            ),
+            ReviewSmallPreviewRow(
+                text: "am răspuns parțial, îmi aduc aminte putin", quality: 1),
+            SizedBox(
+              height: 10,
+            ),
+            ReviewSmallPreviewRow(
+                text: "am răspuns corect cu greu sau am răspuns parțial",
+                quality: 2),
+            SizedBox(
+              height: 10,
+            ),
+            ReviewSmallPreviewRow(
+                text: "am știut răspunsul după puțin timp de găndire",
+                quality: 3),
+            SizedBox(
+              height: 10,
+            ),
+            ReviewSmallPreviewRow(
+                text: "am știut răspunsul aproape imediat", quality: 4),
+            SizedBox(
+              height: 10,
+            ),
+            ReviewSmallPreviewRow(
+                text: "am știut răspunsul și a fost foarte ușor", quality: 5),
+            SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

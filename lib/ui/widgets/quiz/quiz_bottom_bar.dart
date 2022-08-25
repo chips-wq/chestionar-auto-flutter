@@ -31,18 +31,19 @@ class QuizBottomBar extends StatelessWidget {
   String getMainButtonText(bool answeredIncorrectly, bool isPractice) {
     if (answeredIncorrectly) {
       if (isPractice) {
-        return 'Evalueaza';
+        return 'Evaluează';
       } else {
-        return 'Urmatoarea';
+        return 'Următoarea';
       }
     }
-    return 'Raspunde';
+    return 'Răspunde';
   }
 
   @override
   Widget build(BuildContext context) {
     var quizProvider = Provider.of<QuizProvider>(context);
     var questionProvider = Provider.of<QuestionProvider>(context);
+    var explanation = questionProvider.question.explanation;
     return Align(
       alignment: Alignment.bottomCenter,
       child: Row(
@@ -51,13 +52,13 @@ class QuizBottomBar extends StatelessWidget {
         children: [
           OutlinedButton(
             onPressed: () => {Navigator.pop(context)},
-            child: Text("Iesire"),
+            child: const Text("Ieșire"),
           ),
-          SizedBox(
+          const SizedBox(
             width: 4,
           ),
           OutlinedButton(
-            onPressed: questionProvider.question.explanation == null
+            onPressed: explanation == null
                 ? () => {}
                 : () => {
                       showBottomSheet(
@@ -73,12 +74,20 @@ class QuizBottomBar extends StatelessWidget {
                               builder: ((context, scrollController) =>
                                   SingleChildScrollView(
                                     controller: scrollController,
-                                    child: ExplanationWidget(),
+                                    child: const ExplanationWidget(),
                                   )),
                             )),
                       ),
                     },
-            child: Text("Explicatie"),
+            style: explanation == null
+                ? OutlinedButton.styleFrom(
+                    side: const BorderSide(width: 1, color: Colors.grey),
+                  )
+                : null,
+            child: Text("Explicație",
+                style: explanation == null
+                    ? const TextStyle(color: Colors.grey)
+                    : null),
           ),
           SizedBox(
             width: !quizProvider.showReview ? 4 : 0,

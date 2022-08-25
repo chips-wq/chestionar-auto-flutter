@@ -18,17 +18,17 @@ class SetariPage extends StatelessWidget {
           //TODO: make this look nice
           GestureDetector(
             onTap: () => Navigator.pushReplacementNamed(context, 'tutorial'),
-            child: Text(
+            child: const ListTile(
+                title: Text(
               "Tutorial",
               style: TextStyle(fontSize: 24, color: AppColors.white),
+            )),
+          ),
+          const ListTile(
+            title: Text(
+              "Schimbă categoria",
+              style: TextStyle(fontSize: 24, color: AppColors.white),
             ),
-          ),
-          Text(
-            "Schimba Categoria",
-            style: TextStyle(fontSize: 24, color: AppColors.white),
-          ),
-          SizedBox(
-            height: 20,
           ),
           Center(
             child: Wrap(
@@ -63,7 +63,7 @@ class MiniCategoryWidget extends StatelessWidget {
       SnackBar(
         duration: Duration(seconds: 1),
         content: Text(
-          "Categoria schimbata in ${drivingCategory.toShortString()}",
+          "Categoria schimbată în ${drivingCategory.toShortString()}",
         ),
       ),
     );

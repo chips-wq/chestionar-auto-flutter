@@ -34,7 +34,7 @@ class SubcategoryScreen extends StatelessWidget {
                           .then((value) =>
                               subcategoryProvider.getSubcategoryStats())
                     },
-                child: Text("Practica"))
+                child: const Text("Practică"))
           ]),
         ),
       ),

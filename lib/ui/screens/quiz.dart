@@ -44,19 +44,31 @@ class Quiz extends StatelessWidget {
             return const Scaffold(
               body: Center(
                 child: Text(
-                  "Loading ...",
+                  "Se încarcă ...",
                   style: TextStyle(fontSize: 24, color: AppColors.white),
                 ),
               ),
             );
           }
           if (quiz.isEmpty) {
-            //TODO: make this look nice
-            return const Scaffold(
+            return Scaffold(
               body: Center(
-                child: Text(
-                  "Momentan nu mai exista intrebari, revino mai tarziu pentru a revizui!",
-                  style: TextStyle(fontSize: 16, color: AppColors.white),
+                child: Padding(
+                  padding: EdgeInsets.all(80),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.assignment_turned_in,
+                          color: AppColors.teal3, size: 48),
+                      const Text(
+                        "Nu mai ai întrebări de revizuit acum, revino mai târziu sau încearca modul Simulare.",
+                        style: TextStyle(color: AppColors.white, fontSize: 16),
+                      ),
+                      OutlinedButton(
+                          onPressed: () => {Navigator.pop(context)},
+                          child: const Text("Înapoi"))
+                    ],
+                  ),
                 ),
               ),
             );
@@ -66,7 +78,6 @@ class Quiz extends StatelessWidget {
               //whenever the question index changes, update everything
               selector: (context, quizProvider) => quizProvider.questionIndex,
               builder: (context, questionIndex, child) {
-                print("Question index changed $questionIndex");
                 return ListenableProxyProvider0(
                   update: (context, _) =>
                       QuestionProvider(question: quiz[questionIndex]),

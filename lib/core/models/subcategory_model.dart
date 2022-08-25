@@ -1,24 +1,24 @@
 import 'package:chestionar_auto/core/models/questions_stats.dart';
 
 Map<int, String> chapterIdToName = {
-  1: 'Indicatoare si marcaje',
-  2: 'Semnalele politistului',
+  1: 'Indicatoare și marcaje',
+  2: 'Semnalele polițistului',
   3: 'Semnalele luminoase',
-  4: 'Pozitia si semnalele',
-  5: 'Depasirea',
-  6: 'Viteza si distanta',
+  4: 'Poziția și semnalele',
+  5: 'Depășirea',
+  6: 'Viteza și distanța',
   7: 'Manevre',
   8: 'Prioritatea de trecere',
-  9: 'Calea ferata',
-  10: 'Oprirea si stationarea',
-  11: 'Circulatia pe autostrazi',
-  12: 'Obligatiile conducatorilor auto',
-  13: 'Sanctiuni si infractiuni',
+  9: 'Calea ferată',
+  10: 'Oprirea și staționarea',
+  11: 'Circulația pe autostrăzi',
+  12: 'Obligațiile conducătorilor auto',
+  13: 'Sancțiuni și infracțiuni',
   14: 'Reguli generale',
-  15: 'Conducerea preventiva',
-  16: 'Masuri de prim ajutor',
-  17: 'Conducerea ecologica',
-  18: 'Notiuni de mecanica',
+  15: 'Conducerea preventivă',
+  16: 'Măsuri de prim ajutor',
+  17: 'Conducerea ecologică',
+  18: 'Noțiuni de mecanică',
 };
 
 class Subcategory {

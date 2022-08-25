@@ -65,7 +65,7 @@ class QuizHeading extends StatelessWidget {
                 style: TextStyle(),
                 children: [
                   TextSpan(
-                    text: "Intrebarea ${quizProvider.questionIndex + 1}",
+                    text: "Întrebarea ${quizProvider.questionIndex + 1}",
                     style: const TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.w300,

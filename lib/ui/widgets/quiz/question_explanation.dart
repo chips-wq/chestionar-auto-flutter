@@ -35,7 +35,7 @@ class ExplanationWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Explicatie",
+                "Explicație",
                 style: TextStyle(fontSize: 30, color: AppColors.white),
               ),
               Text(explanation ?? "No explanation",
