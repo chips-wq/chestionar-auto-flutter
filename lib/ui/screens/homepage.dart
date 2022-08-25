@@ -1,18 +1,12 @@
 import 'dart:math';
 
-import 'package:chestionar_auto/core/models/subcategory_model.dart';
 import 'package:chestionar_auto/core/provider/enums.dart';
 import 'package:chestionar_auto/core/provider/question_stats_provider.dart';
 import 'package:chestionar_auto/core/services/settings_service.dart';
-import 'package:chestionar_auto/core/provider/subcategory_provider.dart';
-import 'package:chestionar_auto/core/services/database_helper.dart';
 import 'package:chestionar_auto/ui/router.dart';
-import 'package:chestionar_auto/ui/screens/quiz.dart';
 import 'package:chestionar_auto/ui/screens/setari.dart';
-import 'package:chestionar_auto/ui/screens/subcategory.dart';
 import 'package:chestionar_auto/ui/shared/app_colors.dart';
 import 'package:chestionar_auto/ui/shared/no_glow_behaviour.dart';
-import 'package:chestionar_auto/ui/widgets/question_information_widget.dart';
 import 'package:chestionar_auto/ui/widgets/question_stats_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -175,32 +169,31 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: Colors.blue),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.info,
-                        color: Colors.blue,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () =>
-                            Navigator.pushNamed(context, '/dataexplanation'),
-                        child: Text(
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, '/dataexplanation'),
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.blue),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Icons.info,
+                          color: Colors.blue,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
                           "Ce reprezintă aceste date ?",
                           style:
                               TextStyle(fontSize: 16, color: AppColors.white),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(

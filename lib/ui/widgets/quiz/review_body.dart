@@ -22,7 +22,7 @@ class Review extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          "Cat de usoara a fost intrebarea?",
+          "Cât de ușoară a fost întrebarea?",
           style: TextStyle(color: AppColors.white, fontSize: 24),
         ),
         const SizedBox(

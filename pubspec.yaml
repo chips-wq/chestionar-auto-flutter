@@ -43,6 +43,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
 
 dev_dependencies:
+  flutter_launcher_icons:
   sqflite_common_ffi:
   flutter_test:
     sdk: flutter
@@ -56,6 +57,10 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/app_icon.png"
 
 # The following section is specific to Flutter packages.
 flutter:

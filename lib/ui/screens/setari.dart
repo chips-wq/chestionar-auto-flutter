@@ -15,7 +15,6 @@ class SetariPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //TODO: make this look nice
           GestureDetector(
             onTap: () => Navigator.pushReplacementNamed(context, 'tutorial'),
             child: const ListTile(
@@ -24,6 +23,7 @@ class SetariPage extends StatelessWidget {
               style: TextStyle(fontSize: 24, color: AppColors.white),
             )),
           ),
+          //TODO: make this look nice
           const ListTile(
             title: Text(
               "Schimbă categoria",

@@ -34,7 +34,7 @@ class Tutorial1 extends StatelessWidget {
               height: 10,
             ),
             ReviewSmallPreviewRow(
-                text: "am răspuns parțial, îmi aduc aminte putin", quality: 1),
+                text: "am răspuns parțial, îmi aduc aminte puțin", quality: 1),
             SizedBox(
               height: 10,
             ),
