@@ -1,6 +1,7 @@
 import 'package:chestionar_auto/ui/shared/app_colors.dart';
 import 'package:chestionar_auto/ui/widgets/tutorial/tutorial1.dart';
 import 'package:chestionar_auto/ui/widgets/tutorial/tutorial2.dart';
+import 'package:chestionar_auto/ui/widgets/tutorial/tutorial3.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -23,20 +24,43 @@ class _TutorialScreenState extends State<TutorialScreen> {
           children: [
             PageView(
               controller: _pageController,
-              children: [
-                Tutorial1(),
-                Tutorial2(),
-                Container(color: Colors.yellow)
-              ],
+              children: [Tutorial1(), Tutorial2(), Tutorial3()],
             ),
             Align(
               alignment: Alignment(0, 0.85),
-              child: SmoothPageIndicator(
-                controller: _pageController,
-                count: 3,
-                effect: SlideEffect(
-                    activeDotColor: AppColors.white,
-                    dotColor: AppColors.bgShade1),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () => {
+                      _pageController.previousPage(
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.easeIn)
+                    },
+                    child: Text(
+                      "inapoi",
+                      style: TextStyle(color: AppColors.white),
+                    ),
+                  ),
+                  SmoothPageIndicator(
+                    controller: _pageController,
+                    count: 3,
+                    effect: WormEffect(
+                        activeDotColor: AppColors.white,
+                        dotColor: AppColors.bgShade1),
+                  ),
+                  GestureDetector(
+                    onTap: () => {
+                      _pageController.nextPage(
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.easeIn)
+                    },
+                    child: Text(
+                      "inainte",
+                      style: TextStyle(color: AppColors.white),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

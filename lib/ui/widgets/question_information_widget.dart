@@ -28,13 +28,13 @@ class QuestionInformationBox extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(
           categoryName,
-          style: TextStyle(fontSize: 16, color: AppColors.white),
+          style: TextStyle(fontSize: 14, color: AppColors.white),
         ),
         loading
             ? Container(height: 12, width: 60, color: AppColors.bgShade1)
             : Text(
                 "$amountQuestions",
-                style: TextStyle(fontSize: 16, color: AppColors.white),
+                style: TextStyle(fontSize: 15, color: AppColors.white),
               ),
         SizedBox(
           height: loading ? 5 : 0,
@@ -43,7 +43,7 @@ class QuestionInformationBox extends StatelessWidget {
             ? Container(height: 12, width: 50, color: AppColors.bgShade1)
             : Text(
                 "$bottomText",
-                style: TextStyle(fontSize: 16, color: AppColors.bgShade1),
+                style: TextStyle(fontSize: 15, color: AppColors.bgShade1),
               ),
       ]),
     );

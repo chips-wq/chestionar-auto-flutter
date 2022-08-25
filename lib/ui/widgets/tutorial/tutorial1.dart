@@ -1,4 +1,5 @@
 import 'package:chestionar_auto/ui/shared/app_colors.dart';
+import 'package:chestionar_auto/ui/shared/no_glow_behaviour.dart';
 import 'package:chestionar_auto/ui/widgets/quiz/review_body.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,52 +13,56 @@ class Tutorial1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.fromLTRB(18, 10, 18, 100),
-        child: ListView(
-          children: [
-            Text("Cum functioneaza?",
-                style: TextStyle(fontSize: 32, color: AppColors.white)),
-            SizedBox(
-              height: 12,
-            ),
-            Text(
-                "Vei fi prezentat cu intrebari din setul intrebarilor oficiale DRPCIV, iar dupa raspuns vei evalua dificultatea intrebarii cu ajutorul formularului de mai jos.",
-                style: TextStyle(fontSize: 16, color: AppColors.white)),
-            SizedBox(
-              height: 15,
-            ),
-            ReviewSmallPreviewRow(
-                text: "nu am stiut sa raspund deloc", quality: 0),
-            SizedBox(
-              height: 10,
-            ),
-            ReviewSmallPreviewRow(
-                text: "am raspuns partial, imi aduc aminte putin", quality: 1),
-            SizedBox(
-              height: 10,
-            ),
-            ReviewSmallPreviewRow(
-                text: "imi aduc aminte de intrebare, dar am raspuns partial",
-                quality: 2),
-            SizedBox(
-              height: 10,
-            ),
-            ReviewSmallPreviewRow(
-                text: "am stiut raspunsul dupa putin timp de gandire",
-                quality: 3),
-            SizedBox(
-              height: 10,
-            ),
-            ReviewSmallPreviewRow(
-                text: "am stiut raspunsul aproape imediat", quality: 4),
-            SizedBox(
-              height: 10,
-            ),
-            ReviewSmallPreviewRow(
-                text: "am stiut raspunsul si a fost foarte usor", quality: 5),
-            SizedBox(
-              height: 10,
-            ),
-          ],
+        child: ScrollConfiguration(
+          behavior: NoGlowBehavior(),
+          child: ListView(
+            children: [
+              Text("Cum functioneaza?",
+                  style: TextStyle(fontSize: 32, color: AppColors.white)),
+              SizedBox(
+                height: 12,
+              ),
+              Text(
+                  "Vei fi prezentat cu intrebari din setul intrebarilor oficiale DRPCIV, iar dupa raspuns vei evalua dificultatea intrebarii cu ajutorul formularului de mai jos.",
+                  style: TextStyle(fontSize: 16, color: AppColors.white)),
+              SizedBox(
+                height: 15,
+              ),
+              ReviewSmallPreviewRow(
+                  text: "nu am stiut sa raspund deloc", quality: 0),
+              SizedBox(
+                height: 10,
+              ),
+              ReviewSmallPreviewRow(
+                  text: "am raspuns partial, imi aduc aminte putin",
+                  quality: 1),
+              SizedBox(
+                height: 10,
+              ),
+              ReviewSmallPreviewRow(
+                  text: "imi aduc aminte de intrebare, dar am raspuns partial",
+                  quality: 2),
+              SizedBox(
+                height: 10,
+              ),
+              ReviewSmallPreviewRow(
+                  text: "am stiut raspunsul dupa putin timp de gandire",
+                  quality: 3),
+              SizedBox(
+                height: 10,
+              ),
+              ReviewSmallPreviewRow(
+                  text: "am stiut raspunsul aproape imediat", quality: 4),
+              SizedBox(
+                height: 10,
+              ),
+              ReviewSmallPreviewRow(
+                  text: "am stiut raspunsul si a fost foarte usor", quality: 5),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
         ));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:chestionar_auto/core/models/subcategory_model.dart';
 import 'package:chestionar_auto/core/provider/enums.dart';
 import 'package:chestionar_auto/core/provider/subcategory_provider.dart';
+import 'package:chestionar_auto/ui/screens/data_explanation.dart';
 import 'package:chestionar_auto/ui/screens/homepage.dart';
 import 'package:chestionar_auto/ui/screens/quiz.dart';
 import 'package:chestionar_auto/ui/screens/subcategory.dart';
@@ -27,7 +28,10 @@ class QuizPageData {
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case '/':
+      case 'tutorial':
+        //   return MaterialPageRoute(builder: (_) => MainPage());
+        return MaterialPageRoute(builder: (context) => TutorialScreen());
+      case 'main':
         return MaterialPageRoute(builder: (_) => MainPage());
       case '/quiz':
         var quizPageData = settings.arguments as QuizPageData;
@@ -39,6 +43,8 @@ class RouteGenerator {
                 .subcategory, //no subcategory meaning it is general(takes all questions)
           ),
         );
+      case '/dataexplanation':
+        return MaterialPageRoute(builder: (_) => DataExplanationScreen());
       case '/subcategory':
         var subcategoryPageData = settings.arguments as SubcategoryPageData;
         return MaterialPageRoute(
@@ -51,8 +57,8 @@ class RouteGenerator {
           ),
         );
 
-      case '/tutorial':
-        return MaterialPageRoute(builder: (context) => TutorialScreen());
+      // case '/tutorial':
+      //   return MaterialPageRoute(builder: (context) => TutorialScreen());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

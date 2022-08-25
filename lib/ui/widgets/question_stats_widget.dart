@@ -13,34 +13,45 @@ class QuestionStatsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        QuestionInformationBox(
-            categoryName: "De revizuit",
-            loading: isLoading,
-            amountQuestions: stats?.toReviewNowQuestions,
-            borderColor: AppColors.teal3,
-            bottomText: "Ramase"),
-        SizedBox(
-          width: 6,
+    return Center(
+      child: SizedBox(
+        width: 320,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: QuestionInformationBox(
+                  categoryName: "Revizuire",
+                  loading: isLoading,
+                  amountQuestions: stats?.toReviewNowQuestions,
+                  borderColor: AppColors.teal3,
+                  bottomText: "Ramase"),
+            ),
+            SizedBox(
+              width: 6,
+            ),
+            Expanded(
+              child: QuestionInformationBox(
+                  categoryName: "Invatare",
+                  loading: isLoading,
+                  amountQuestions: stats?.toLearnNowQuestions,
+                  borderColor: AppColors.orange,
+                  bottomText: "Ramase"),
+            ),
+            SizedBox(
+              width: 6,
+            ),
+            Expanded(
+              child: QuestionInformationBox(
+                  categoryName: "Nevazute",
+                  loading: isLoading,
+                  amountQuestions: stats?.neverSeenQuestions,
+                  borderColor: AppColors.lightBlue,
+                  bottomText: "Ramase"),
+            ),
+          ],
         ),
-        QuestionInformationBox(
-            categoryName: "De invatat",
-            loading: isLoading,
-            amountQuestions: stats?.toLearnNowQuestions,
-            borderColor: AppColors.orange,
-            bottomText: "Ramase"),
-        SizedBox(
-          width: 6,
-        ),
-        QuestionInformationBox(
-            categoryName: "Nevazute",
-            loading: isLoading,
-            amountQuestions: stats?.neverSeenQuestions,
-            borderColor: AppColors.lightBlue,
-            bottomText: "Ramase"),
-      ],
+      ),
     );
   }
 }

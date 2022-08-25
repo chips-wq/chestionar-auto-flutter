@@ -1,9 +1,9 @@
 import 'package:chestionar_auto/core/models/subcategory_model.dart';
 import 'package:chestionar_auto/core/provider/enums.dart';
 import 'package:chestionar_auto/core/provider/question_provider.dart';
-import 'package:chestionar_auto/core/provider/question_stats_provider.dart';
 import 'package:chestionar_auto/core/provider/quiz_provider.dart';
 import 'package:chestionar_auto/ui/shared/app_colors.dart';
+import 'package:chestionar_auto/ui/shared/no_glow_behaviour.dart';
 import 'package:chestionar_auto/ui/widgets/quiz/quiz_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:chestionar_auto/core/models/question_model.dart';
@@ -106,13 +106,5 @@ class Quiz extends StatelessWidget {
                 );
               });
         });
-  }
-}
-
-class NoGlowBehavior extends ScrollBehavior {
-  @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
-    return child;
   }
 }

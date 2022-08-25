@@ -1,5 +1,3 @@
-import 'package:chestionar_auto/core/models/subcategory_model.dart';
-
 class QuestionsStats {
   int totalQuestions;
 

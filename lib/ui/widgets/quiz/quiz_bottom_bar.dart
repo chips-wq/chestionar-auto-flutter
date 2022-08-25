@@ -54,7 +54,7 @@ class QuizBottomBar extends StatelessWidget {
             child: Text("Iesire"),
           ),
           SizedBox(
-            width: 10,
+            width: 4,
           ),
           OutlinedButton(
             onPressed: questionProvider.question.explanation == null
@@ -81,7 +81,7 @@ class QuizBottomBar extends StatelessWidget {
             child: Text("Explicatie"),
           ),
           SizedBox(
-            width: !quizProvider.showReview ? 10 : 0,
+            width: !quizProvider.showReview ? 4 : 0,
           ),
           quizProvider.showReview
               ? SizedBox.shrink()
