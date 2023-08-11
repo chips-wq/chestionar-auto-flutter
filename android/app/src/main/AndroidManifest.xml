@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.chestionar_auto">
+    package="com.chipswq.chestionar_auto">
    <application
-        android:label="Chestionare auto - repetare periodică"
+        android:label="Chestionare auto revizuire SM2"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
