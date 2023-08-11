@@ -1,6 +1,9 @@
 # Chestionar Auto
 
-Learn faster for the Romanian National Driving Exam using Spaced Repetition Learning, the SM2 algorithm.
+Mobile app built using **flutter** to learn faster for the Romanian National Driving Exam using Spaced Repetition Learning, the SM2 algorithm.
+
+What is flutter ?
+https://flutter.dev/
 
 What is spaced repetition learning ?
 https://en.wikipedia.org/wiki/Spaced_repetition
