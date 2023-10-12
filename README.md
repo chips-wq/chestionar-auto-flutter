@@ -13,3 +13,5 @@ https://github.com/thyagoluciano/sm2
 
 Logo of this app is a vector which requires attribution at
 <a href="https://www.vecteezy.com/free-vector/driving-school-logo">Driving School Logo Vectors by Vecteezy</a>
+
+The app is published on Google Play at: https://play.google.com/store/apps/details?id=com.chipswq.chestionar_auto
